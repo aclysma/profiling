@@ -1,6 +1,6 @@
 
 #[macro_export]
-macro_rules! profile_scope {
+macro_rules! scope {
     ($name:expr) => {
         #[cfg(feature = "profile-with-puffin")]
         puffin::profile_scope!($name);

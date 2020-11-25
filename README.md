@@ -19,7 +19,7 @@ by that crate or the generic ones in this crate. For example:
 // Depending on the features you enable on the profiling crate this may map to something like:
 // - puffin::profile_scope!("Scope Name")
 // - optick::event!("Scope Name")
-profiling::profile_scope!("Scope Name");
+profiling::scope!("Scope Name");
 ```
 
 Or:
@@ -28,7 +28,7 @@ Or:
 // Depending on the features you enable on the profiling crate this may map to something like:
 // - puffin::profile_scope_data!("Scope Name", "tag");
 // - optick::event!("Scope Name"); optick::tag("tag");
-profiling::profile_scope!("Scope Name", "tag");
+profiling::scope!("Scope Name", "tag");
 ```
 
 This gets mapped into something like `puffin::profile_scope!("Scope Name")` or `optick::event!("Scope Name")`
