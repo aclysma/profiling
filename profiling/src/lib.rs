@@ -1,4 +1,3 @@
-
 #[macro_export]
 macro_rules! scope {
     ($name:expr) => {
@@ -9,7 +8,7 @@ macro_rules! scope {
         optick::event!($name);
 
         #[cfg(feature = "profile-with-tracing")]
-        tracing::span!(tracing::Level::INFO, $name).enter();
+        tracing::span!(tracing::Level::INFO, $name);
     };
 
     ($name:expr, $data:expr) => {
@@ -22,6 +21,9 @@ macro_rules! scope {
         optick::tag!($data);
 
         #[cfg(feature = "profile-with-tracing")]
-        tracing::span!(tracing::Level::INFO, $name, tag = $data).enter();
+        tracing::span!(tracing::Level::INFO, $name, tag = $data);
     };
 }
+
+// This must be done as a proc macro because tracing requires a const string
+pub use profiling_derive::function;
