@@ -1,6 +1,6 @@
 [package]
 name = "profiling"
-version = "0.0.0"
+version = "0.1.0"
 authors = ["Philip Degarmo <aclysma@gmail.com>"]
 edition = "2018"
 description = "This crate provides a very thin abstraction over other profiler crates."
