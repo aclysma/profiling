@@ -17,6 +17,7 @@ categories = ["development-tools::profiling"]
 puffin = { version = "0.3", optional = true }
 optick = { version = "1.3", optional = true }
 tracing = { version = "0.1", optional = true }
+tracy-client = { version = "0.10", optional = true }
 superluminal-perf = { version = "0.1", optional = true }
 profiling-procmacros = { version = "0.1.1", path = "profiling-procmacros", optional = true }
 
@@ -29,7 +30,6 @@ env_logger = "0.6"
 imgui = "0.6"
 imgui-winit-support = "0.6"
 
-tracy-client = { version = "0.10.0" }
 tracing-tracy = { version = "0.4.0" }
 tracing-subscriber = { version = "0.2" }
 
@@ -39,7 +39,7 @@ profile-with-puffin = ["puffin"]
 profile-with-optick = ["optick"]
 profile-with-superluminal = ["superluminal-perf"]
 profile-with-tracing = ["tracing"]
-profile-with-tracy = ["profile-with-tracing"]
+profile-with-tracy = ["profile-with-tracing", "tracy-client"]
 procmacros = ["profiling-procmacros"]
 
 [[example]]

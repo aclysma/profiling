@@ -1,3 +1,17 @@
+#[cfg(feature = "profile-with-puffin")]
+pub use puffin;
+
+#[cfg(feature = "profile-with-optick")]
+pub use optick;
+
+#[cfg(feature = "profile-with-superluminal")]
+pub use superluminal_perf;
+
+#[cfg(feature = "profile-with-tracing")]
+pub use tracing;
+#[cfg(feature = "profile-with-tracing")]
+pub use tracy_client;
+
 /// Opens a scope. Two variants:
 ///  - profiling::scope!(name: &str) - Opens a scope with the given name
 ///  - profiling::scope!(name: &str, data: &str) - Opens a scope with the given name and an extra
@@ -14,35 +28,35 @@
 macro_rules! scope {
     ($name:expr) => {
         #[cfg(feature = "profile-with-puffin")]
-        puffin::profile_scope!($name);
+        $crate::puffin::profile_scope!($name);
 
         #[cfg(feature = "profile-with-optick")]
-        optick::event!($name);
+        $crate::optick::event!($name);
 
         #[cfg(feature = "profile-with-superluminal")]
         let _superluminal_guard = $crate::superluminal::SuperluminalGuard::new($name);
 
         #[cfg(feature = "profile-with-tracing")]
-        let _span = tracing::span!(tracing::Level::INFO, $name);
+        let _span = $crate::tracing::span!(tracing::Level::INFO, $name);
         #[cfg(feature = "profile-with-tracing")]
         let _span_entered = _span.enter();
     };
     // NOTE: I've not been able to get attached data to work with optick and tracy
     ($name:expr, $data:expr) => {
         #[cfg(feature = "profile-with-puffin")]
-        puffin::profile_scope_data!($name, $data);
+        $crate::puffin::profile_scope_data!($name, $data);
 
         #[cfg(feature = "profile-with-optick")]
-        optick::event!($name);
+        $crate::optick::event!($name);
         #[cfg(feature = "profile-with-optick")]
-        optick::tag!("tag", $data);
+        $crate::optick::tag!("tag", $data);
 
         #[cfg(feature = "profile-with-superluminal")]
         let _superluminal_guard =
             $crate::superluminal::SuperluminalGuard::new_with_data($name, $data);
 
         #[cfg(feature = "profile-with-tracing")]
-        let _span = tracing::span!(tracing::Level::INFO, $name, tag = $data);
+        let _span = $crate::tracing::span!(tracing::Level::INFO, $name, tag = $data);
         #[cfg(feature = "profile-with-tracing")]
         let _span_entered = _span.enter();
     };
@@ -79,13 +93,13 @@ macro_rules! register_thread {
         // puffin uses the thread name
 
         #[cfg(feature = "profile-with-optick")]
-        optick::register_thread($name);
+        $crate::optick::register_thread($name);
 
         #[cfg(feature = "profile-with-superluminal")]
-        superluminal_perf::set_current_thread_name($name);
+        $crate::superluminal_perf::set_current_thread_name($name);
 
         #[cfg(feature = "profile-with-tracy")]
-        tracy_client::set_thread_name($name);
+        $crate::tracy_client::set_thread_name($name);
     };
 }
 
@@ -95,15 +109,15 @@ macro_rules! register_thread {
 macro_rules! finish_frame {
     () => {
         #[cfg(feature = "profile-with-puffin")]
-        puffin::GlobalProfiler::lock().new_frame();
+        $crate::puffin::GlobalProfiler::lock().new_frame();
 
         #[cfg(feature = "profile-with-optick")]
-        optick::next_frame();
+        $crate::optick::next_frame();
 
         // superluminal does not have a frame end function
 
         #[cfg(feature = "profile-with-tracy")]
-        tracy_client::finish_continuous_frame!();
+        $crate::tracy_client::finish_continuous_frame!();
     };
 }
 

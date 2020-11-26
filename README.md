@@ -75,17 +75,15 @@ lets you turn them on/off per crate:
 
 ```toml
 [dependencies]
-puffin = { version = "0.3", optional = true }
-optick = { version = "1.3", optional = true }
-superluminal-perf = { version = "0.1", optional = true }
-tracing = { version = "0.1", optional = true }
+profiling = "0.1"
 some_upstream_crate = "0.1"
 
 [features]
-profile-with-puffin = ["profiling/profile-with-puffin", "some_upstream_crate/profile-with-puffin", "puffin"]
-profile-with-optick = ["profiling/profile-with-optick", "some_upstream_crate/profile-with-optick", "optick"]
-profile-with-superluminal = ["profiling/profile-with-superluminal", "some_upstream_crate/profile-with-superluminal", "superluminal-perf"]
-profile-with-tracing = ["profiling/profile-with-tracing", "some_upstream_crate/profile-with-tracing", "tracing"]
+# default = ["profile-with-optick"] <-- Easy way to turn them on/off!
+profile-with-puffin = ["profiling/profile-with-puffin", "some_upstream_crate/profile-with-puffin"]
+profile-with-optick = ["profiling/profile-with-optick", "some_upstream_crate/profile-with-optick"]
+profile-with-superluminal = ["profiling/profile-with-superluminal", "some_upstream_crate/profile-with-superluminal"]
+profile-with-tracing = ["profiling/profile-with-tracing", "some_upstream_crate/profile-with-tracing"]
 ```
 
 ## Using from a Library
@@ -96,16 +94,13 @@ at all.
 
 ```toml
 [dependencies]
-puffin = { version = "0.3", optional = true }
-optick = { version = "1.3", optional = true }
-superluminal-perf = { version = "0.1", optional = true }
-tracing = { version = "0.1", optional = true }
+profiling = "0.1"
 
 [features]
-profile-with-puffin = ["profiling/profile-with-puffin", "puffin"]
-profile-with-optick = ["profiling/profile-with-optick", "optick"]
-profile-with-superluminal = ["profiling/profile-with-superluminal", "superluminal-perf"]
-profile-with-tracing = ["profiling/profile-with-tracing", "tracing"]
+profile-with-puffin = ["profiling/profile-with-puffin"]
+profile-with-optick = ["profiling/profile-with-optick"]
+profile-with-superluminal = ["profiling/profile-with-superluminal"]
+profile-with-tracing = ["profiling/profile-with-tracing"]
 ```
 
 Now you can instrument your library using the API exposed via the `profiling` crate and support each profiler.
