@@ -2,7 +2,7 @@
 
 Provides a very thin abstraction over instrumented profiling crates like `puffin`, `optick`, `tracy`, and `superluminal-perf`.
 Currently, there's just four macros:
- * `profiling::scope!(name: &str [, tag: &str])`
+ * `profiling::scope!(name: &str, [tag: &str])`
      * name: scopes will appear in the profiler under this name
      * tag: optional extra data
  * `#[profiling::function]`
