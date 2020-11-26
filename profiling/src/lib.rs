@@ -25,4 +25,4 @@ macro_rules! scope {
 }
 
 // This must be done as a proc macro because tracing requires a const string
-pub use profiling_derive::function;
+pub use profiling_procmacros::function;

@@ -1,5 +1,5 @@
 [workspace]
 members = [
     "profiling",
-    "profiling-derive"
+    "profiling-procmacros"
 ]
