@@ -79,12 +79,14 @@ profiling = "0.1"
 some_upstream_crate = "0.1"
 
 [features]
-# default = ["profile-with-optick"] <-- Easy way to turn them on/off!
 profile-with-puffin = ["profiling/profile-with-puffin", "some_upstream_crate/profile-with-puffin"]
 profile-with-optick = ["profiling/profile-with-optick", "some_upstream_crate/profile-with-optick"]
 profile-with-superluminal = ["profiling/profile-with-superluminal", "some_upstream_crate/profile-with-superluminal"]
 profile-with-tracing = ["profiling/profile-with-tracing", "some_upstream_crate/profile-with-tracing"]
 ```
+
+ * You can use the default feature to quickly/temporarily turn something on: `default = ["profile-with-optick"]`
+ * `cargo run --features=profile-with-optick` works too!
 
 ## Using from a Library
 

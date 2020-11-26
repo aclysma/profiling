@@ -15,13 +15,13 @@ pub fn function(
     let new_body: syn::Block = parse_quote! {
         {
             #[cfg(feature = "profile-with-puffin")]
-            puffin::profile_function!();
+            profiling::puffin::profile_function!();
 
             #[cfg(feature = "profile-with-optick")]
-            optick::event!();
+            profiling::optick::event!();
 
             #[cfg(feature = "profile-with-tracing")]
-            let _fn_span = tracing::span!(tracing::Level::INFO, std::stringify!(#instrumented_function_name.name));
+            let _fn_span = profiling::tracing::span!(tracing::Level::INFO, std::stringify!(#instrumented_function_name.name));
             #[cfg(feature = "profile-with-tracing")]
             let _fn_span_entered = _fn_span.enter();
 

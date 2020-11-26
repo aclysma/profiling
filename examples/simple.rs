@@ -32,7 +32,7 @@ fn main() {
 
     // Turn on tracing for puffin (you would still need to render/save this somehow!)
     #[cfg(feature = "profile-with-puffin")]
-    puffin::set_scopes_on(true);
+    profiling::puffin::set_scopes_on(true);
 
     println!("Starting loop, profiler can now be attached");
 
@@ -78,7 +78,7 @@ fn some_other_function(iterations: usize) {
 
             // Mixing general profiling API calls with profiler-specific API calls is allowed
             #[cfg(feature = "profile-with-optick")]
-            optick::tag!("extra_data", "MORE DATA");
+            profiling::optick::tag!("extra_data", "MORE DATA");
 
             some_inner_function(i);
             burn_time(1);
