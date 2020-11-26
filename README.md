@@ -8,7 +8,7 @@ Currently, there's just four macros:
  * `#[profiling::function]`
      * procmacro placed on a function to quickly wrap it in a scope using the function name
  * `profiling::register_thread!([name: &str])`
-     * name: optional, defaults to std::thread::current().name, or .id if it's unnamed
+     * name: optional, defaults to `std::thread::current().name`, or `.id` if it's unnamed
  * `profiling::finish_frame!()`
      * Many profilers have the concept of a "frame" as a unit of work. Use this to indicate where one frame ends and the
        next one begins.
