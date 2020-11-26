@@ -6,7 +6,7 @@
 ///
 /// ```
 /// profiling::scope!("outer");
-/// for _in 0..10 {
+/// for _ in 0..10 {
 ///     profiling::scope!("inner", format!("iteration {}").as_str());
 /// }
 /// ```
@@ -46,10 +46,10 @@ macro_rules! scope {
 macro_rules! register_thread {
     ($name:expr) => {
         #[cfg(feature = "profile-with-optick")]
-        optick::register_thread("main");
+        optick::register_thread($name);
 
         #[cfg(feature = "profile-with-tracy")]
-        tracy_client::set_thread_name("Main Thread");
+        tracy_client::set_thread_name($name);
     };
 }
 
