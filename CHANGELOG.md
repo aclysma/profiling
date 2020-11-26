@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.3
+ * Re-export the profiler crates, simplifying changes needed in end-user's cargo.toml
+
 ## 0.1.2
  * Remove unintended and unnecessary dependencies from the procmacro crate
  * Republish the bindings crate mainly to fix readme typos and add a bit more info about the exposed APIs
