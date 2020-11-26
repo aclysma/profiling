@@ -59,15 +59,17 @@ lets you turn them on/off per crate:
 
 ```toml
 [dependencies]
-puffin = { version = "0.3.1", optional = true }
-optick = { version = "1.3.4", optional = true }
+puffin = { version = "0.3", optional = true }
+optick = { version = "1.3", optional = true }
+superluminal-perf = { version = "0.1", optional = true }
 tracing = { version = "0.1", optional = true }
 some_upstream_crate = "0.1"
 
 [features]
 profile-with-puffin = ["profiling/profile-with-puffin", "some_upstream_crate/profile-with-puffin", "puffin"]
-profile-with-optick = ["profiling/profile-with-optick", "some_upstream_crate/profile-with-puffin", "optick"]
-profile-with-tracing = ["profiling/profile-with-tracing", "some_upstream_crate/profile-with-puffin", "tracing"]
+profile-with-optick = ["profiling/profile-with-optick", "some_upstream_crate/profile-with-optick", "optick"]
+profile-with-superluminal = ["profiling/profile-with-superluminal", "some_upstream_crate/profile-with-superluminal", "superluminal-perf"]
+profile-with-tracing = ["profiling/profile-with-tracing", "some_upstream_crate/profile-with-tracing", "tracing"]
 ```
 
 ## Using From a Library
@@ -78,15 +80,19 @@ at all.
 
 ```toml
 [dependencies]
-puffin = { version = "0.3.1", optional = true }
-optick = { version = "1.3.4", optional = true }
+puffin = { version = "0.3", optional = true }
+optick = { version = "1.3", optional = true }
+superluminal-perf = { version = "0.1", optional = true }
 tracing = { version = "0.1", optional = true }
 
 [features]
 profile-with-puffin = ["profiling/profile-with-puffin", "puffin"]
 profile-with-optick = ["profiling/profile-with-optick", "optick"]
+profile-with-superluminal = ["profiling/profile-with-superluminal", "superluminal-perf"]
 profile-with-tracing = ["profiling/profile-with-tracing", "tracing"]
 ```
+
+Now you can instrument your library using the API exposed via the `profiling` crate and support each profiler.
 
 The downstream binary can now turn these features on per crate by enabling the appropriate features within the crate as
 described above.
@@ -95,18 +101,20 @@ described above.
 
  * profile-with-puffin: Enable the `puffin` crate
  * profile-with-optick: Enable the `optick` crate
+ * profile-with-superluminal: Enable the `superluminal-perf` crate
  * profile-with-tracing: Enable the `tracing` crate. (The profiler crate `tracy` consumes data through this abstraction)
 
 ## Examples
 
  * simple: Shows a bare minimum requirents to do some simple instrumented profiling. Once it's running, you
-   can connect to the process using optick or tracy
+   can connect to the process using optick/tracy/superluminal. Some of these are windows only!
 
 ```
-run --package profiling --example simple --features="profile-with-optick,profile-with-tracy,profile-with-puffin" 
+run --package profiling --example simple --features="profile-with-optick,profile-with-tracy,profile-with-puffin,profile-with-superluminal" 
 ```
 
- * puffin: Launches a basic app with imgui integration showing the puffin UI.
+ * puffin: Launches a basic app with imgui integration showing the puffin UI. This one should run everywhere
+   that supports imgui.
  
 ```
 cargo run --package profiling --example puffin --features="profile-with-puffin"

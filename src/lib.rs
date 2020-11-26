@@ -19,6 +19,9 @@ macro_rules! scope {
         #[cfg(feature = "profile-with-optick")]
         optick::event!($name);
 
+        #[cfg(feature = "profile-with-superluminal")]
+        let _superluminal_guard = $crate::superluminal::SuperluminalGuard::new($name);
+
         #[cfg(feature = "profile-with-tracing")]
         let _span = tracing::span!(tracing::Level::INFO, $name);
         #[cfg(feature = "profile-with-tracing")]
@@ -34,6 +37,10 @@ macro_rules! scope {
         #[cfg(feature = "profile-with-optick")]
         optick::tag!("tag", $data);
 
+        #[cfg(feature = "profile-with-superluminal")]
+        let _superluminal_guard =
+            $crate::superluminal::SuperluminalGuard::new_with_data($name, $data);
+
         #[cfg(feature = "profile-with-tracing")]
         let _span = tracing::span!(tracing::Level::INFO, $name, tag = $data);
         #[cfg(feature = "profile-with-tracing")]
@@ -41,12 +48,41 @@ macro_rules! scope {
     };
 }
 
+/// Proc macro for creating a scope around the function, using the name of the function for the
+/// scope's name
+///
+/// This must be done as a proc macro because tracing requires a const string
+///
+/// ```
+/// #[profiling::function]
+/// fn my_function() {
+///
+/// }
+/// ```
+pub use profiling_procmacros::function;
+
 /// Registers a thread with the profiler API(s). This is usually setting a name for the thread.
+/// Two variants:
+///  - register_thread!() - Tries to get the name of the thread, or an ID if no name is set
+///  - register_thread!(name: &str) - Registers the thread using the given name
 #[macro_export]
 macro_rules! register_thread {
+    () => {
+        let thread_name = std::thread::current()
+            .name()
+            .map(|x| x.to_string())
+            .unwrap_or_else(|| format!("Thread {:?}", std::thread::current().id()));
+
+        $crate::register_thread!(&thread_name);
+    };
     ($name:expr) => {
+        // puffin uses the thread name
+
         #[cfg(feature = "profile-with-optick")]
         optick::register_thread($name);
+
+        #[cfg(feature = "profile-with-superluminal")]
+        superluminal_perf::set_current_thread_name($name);
 
         #[cfg(feature = "profile-with-tracy")]
         tracy_client::set_thread_name($name);
@@ -64,20 +100,40 @@ macro_rules! finish_frame {
         #[cfg(feature = "profile-with-optick")]
         optick::next_frame();
 
+        // superluminal does not have a frame end function
+
         #[cfg(feature = "profile-with-tracy")]
         tracy_client::finish_continuous_frame!();
     };
 }
 
-/// Proc macro for creating a scope around the function, using the name of the function for the
-/// scope's name
-///
-/// This must be done as a proc macro because tracing requires a const string
-///
-/// ```
-/// #[profiling::function]
-/// fn my_function() {
-///
-/// }
-/// ```
-pub use profiling_procmacros::function;
+//
+// RAII wrappers to support superluminal. These are public as they need to be callable from macros
+// but are not intended for direct use.
+//
+#[cfg(feature = "profile-with-superluminal")]
+#[doc(hidden)]
+pub mod superluminal {
+    pub struct SuperluminalGuard;
+
+    impl SuperluminalGuard {
+        pub fn new(name: &str) -> Self {
+            superluminal_perf::begin_event(name);
+            SuperluminalGuard
+        }
+
+        pub fn new_with_data(
+            name: &str,
+            data: &str,
+        ) -> Self {
+            superluminal_perf::begin_event_with_data(name, data, 0);
+            SuperluminalGuard
+        }
+    }
+
+    impl Drop for SuperluminalGuard {
+        fn drop(&mut self) {
+            superluminal_perf::end_event();
+        }
+    }
+}
