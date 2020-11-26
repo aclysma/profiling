@@ -4,6 +4,7 @@
  * Add profiling::function procmacro
  * Add profiling::register_thread!()
  * Add profiling::finish_frame!()
+ * Add support for superluminal
  * Fixed incorrect usage of span!() that affected tracy captures
  * More examples, improved documentation
 
