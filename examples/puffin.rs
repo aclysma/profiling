@@ -47,6 +47,8 @@ impl ExampleApp {
         _time_state: &TimeState,
     ) {
         profiling::scope!("update");
+        some_function();
+        some_other_function(3);
     }
 
     fn draw(
@@ -237,4 +239,41 @@ fn main() {
             _ => {}
         }
     });
+}
+
+fn burn_time(micros: u128) {
+    let start_time = std::time::Instant::now();
+    loop {
+        if (std::time::Instant::now() - start_time).as_micros() > micros {
+            break;
+        }
+    }
+}
+
+// This `profiling::function` attribute is equivalent to profiling::scope!(function_name)
+#[profiling::function]
+fn some_function() {
+    burn_time(200);
+}
+
+fn some_other_function(iterations: usize) {
+    profiling::scope!("some_other_function");
+    burn_time(200);
+
+    {
+        profiling::scope!("do iterations");
+        for i in 0..iterations {
+            profiling::scope!(
+                "some_inner_function_that_sleeps",
+                format!("other data {}", i).as_str()
+            );
+            some_inner_function(i);
+            burn_time(200);
+        }
+    }
+}
+
+#[profiling::function]
+fn some_inner_function(_iteration_index: usize) {
+    burn_time(200);
 }

@@ -1,7 +1,3 @@
-use tracing;
-use tracing_tracy;
-use tracy_client;
-
 fn main() {
     // Just check that one of these features was enabled because otherwise, nothing interesting will happen
     #[cfg(not(any(
@@ -70,7 +66,11 @@ fn some_other_function(iterations: usize) {
                 "some_inner_function_that_sleeps",
                 format!("other data {}", i).as_str()
             );
+
+            // Mixing general profiling API calls with profiler-specific API calls is allowed
+            #[cfg(feature = "profile-with-optick")]
             optick::tag!("extra_data", "MORE DATA");
+
             some_inner_function(i);
             burn_time(1);
         }
