@@ -28,12 +28,20 @@ env_logger = "0.6"
 imgui = "0.6"
 imgui-winit-support = "0.6"
 
+tracy-client = { version = "0.10.0" }
+tracing-tracy = { version = "0.4.0" }
+
 [features]
 default = []
 profile-with-puffin = ["puffin"]
 profile-with-optick = ["optick"]
 profile-with-tracing = ["tracing"]
+profile-with-tracy = ["profile-with-tracing"]
 
 [[example]]
 name = "puffin"
 required-features = ["profile-with-puffin"]
+
+[[example]]
+name = "simple"
+required-features = []

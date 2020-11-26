@@ -22,31 +22,56 @@ by that crate or the generic ones in this crate. For example:
 profiling::scope!("Scope Name");
 ```
 
-Or:
+There is also a proc macro to decorate functions:
 
 ```rust
-// Depending on the features you enable on the profiling crate this may map to something like:
-// - puffin::profile_scope_data!("Scope Name", "tag");
-// - optick::event!("Scope Name"); optick::tag("tag");
-profiling::scope!("Scope Name", "tag");
+#[profiling::function]
+fn my_function() {
+
+}
 ```
 
-This gets mapped into something like `puffin::profile_scope!("Scope Name")` or `optick::event!("Scope Name")`
-depending on the features that are enabled.
+If you want to enable profiling in upstream crates, you'll need to enable the appropriate feature in them:
+
+```toml
+[dependencies]
+puffin = { version = "0.3.1", optional = true }
+optick = { version = "1.3.4", optional = true }
+tracing = { version = "0.1", optional = true }
+some_upstream_crate = "0.1"
+
+[features]
+profile-with-puffin = ["profiling/profile-with-puffin", "some_upstream_crate/profile-with-puffin", "puffin"]
+profile-with-optick = ["profiling/profile-with-optick", "some_upstream_crate/profile-with-puffin", "optick"]
+profile-with-tracing = ["profiling/profile-with-tracing", "some_upstream_crate/profile-with-puffin", "tracing"]
+```
 
 ## Using From a Library
 
-Add the profiling crate to Cargo.toml. Don't use any features. Those features should only be enabled by the binary. If
-the end-user of your library doesn't use profiling, the macros in this crate will emit no code at all.
+Add the profiling crate to Cargo.toml Add the following features but don't enable them. Those features should only be
+enabled by the binary. If the end-user of your library doesn't use profiling, the macros in this crate will emit no code
+at all.
 
-Not every feature will be exposed, so in some cases it still might make sense to import specific profiling crates if
-you want to add specific functionality that is offered by a particular profiler crate.
+```toml
+[dependencies]
+puffin = { version = "0.3.1", optional = true }
+optick = { version = "1.3.4", optional = true }
+tracing = { version = "0.1", optional = true }
+
+[features]
+profile-with-puffin = ["profiling/profile-with-puffin", "puffin"]
+profile-with-optick = ["profiling/profile-with-optick", "optick"]
+profile-with-tracing = ["profiling/profile-with-tracing", "tracing"]
+```
+
+The downstream binary can now turn these features on per crate by enabling the appropriate features within the crate.
+For Example: profile-with-puffin = ["your_lib_name/profile-with-puffin", "puffin"]
 
 ## Feature Flags
 
-profile-with-puffin: Enable the `puffin` crate
-profile-with-optick: Enable the `optick` crate
-profile-with-tracing: Enable the `tracing` crate. (The profiler crate `tracy` consumes data through this abstraction)
+ * profile-with-puffin: Enable the `puffin` crate
+ * profile-with-optick: Enable the `optick` crate
+ * profile-with-tracing: Enable the `tracing` crate. (The profiler crate `tracy` consumes data through this abstraction)
 
 ## License
 
