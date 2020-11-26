@@ -101,16 +101,14 @@ described above.
 
  * simple: Shows a bare minimum requirents to do some simple instrumented profiling. Once it's running, you
    can connect to the process using optick or tracy
- 
+
 ```
-cd profiling
 run --package profiling --example simple --features="profile-with-optick,profile-with-tracy,profile-with-puffin" 
 ```
 
  * puffin: Launches a basic app with imgui integration showing the puffin UI.
  
 ```
-cd profiling
 cargo run --package profiling --example puffin --features="profile-with-puffin"
 ```
 
