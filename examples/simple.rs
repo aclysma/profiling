@@ -1,11 +1,14 @@
-
-use tracing_tracy;
 use tracing;
+use tracing_tracy;
 use tracy_client;
 
 fn main() {
     // Just check that one of these features was enabled because otherwise, nothing interesting will happen
-    #[cfg(not(any(feature = "profile-with-puffin", feature = "profile-with-tracy", feature = "profile-with-optick")))]
+    #[cfg(not(any(
+        feature = "profile-with-puffin",
+        feature = "profile-with-tracy",
+        feature = "profile-with-optick"
+    )))]
     panic!("No profiler feature flags were enabled. Since this is an example, this is probably a mistake.");
 
     // Good to call this on any threads that are created to get clearer profiling results
@@ -18,7 +21,8 @@ fn main() {
         use tracing_subscriber::layer::SubscriberExt;
         tracing::subscriber::set_global_default(
             tracing_subscriber::registry().with(tracing_tracy::TracyLayer::new()),
-        ).unwrap();
+        )
+        .unwrap();
     }
 
     // Turn on tracing for puffin (you would still need to render/save this somehow!)
@@ -62,7 +66,10 @@ fn some_other_function(iterations: usize) {
     {
         profiling::scope!("do iterations");
         for i in 0..iterations {
-            profiling::scope!("some_inner_function_that_sleeps", format!("other data {}", i).as_str());
+            profiling::scope!(
+                "some_inner_function_that_sleeps",
+                format!("other data {}", i).as_str()
+            );
             optick::tag!("extra_data", "MORE DATA");
             some_inner_function(i);
             burn_time(1);

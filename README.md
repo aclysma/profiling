@@ -121,6 +121,8 @@ Licensed under either of
 
 at your option.
 
+The examples directory contains [`mplus-1p-regular.ttf`](http://mplus-fonts.osdn.jp), available under its own license.
+
 ### Contribution
 
 Unless you explicitly state otherwise, any contribution intentionally
