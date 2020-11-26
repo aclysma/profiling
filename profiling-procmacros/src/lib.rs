@@ -21,7 +21,9 @@ pub fn function(
             optick::event!();
 
             #[cfg(feature = "profile-with-tracing")]
-            tracing::span!(tracing::Level::INFO, std::stringify!(#instrumented_function_name.name));
+            let _fn_span = tracing::span!(tracing::Level::INFO, std::stringify!(#instrumented_function_name.name));
+            #[cfg(feature = "profile-with-tracing")]
+            let _fn_span_entered = _fn_span.enter();
 
             #body
         }

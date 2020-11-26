@@ -1,3 +1,8 @@
+
+use tracing_tracy;
+use tracing;
+use tracy_client;
+
 fn main() {
     println!("Starting loop, profiler can now be attached");
 
@@ -25,6 +30,15 @@ fn main() {
     #[cfg(feature = "profile-with-tracy")]
     tracy_client::set_thread_name("Main Thread");
 
+    // Tracy requires having a layer set up with the tracing crate
+    #[cfg(feature = "profile-with-tracy")]
+    {
+        use tracing_subscriber::layer::SubscriberExt;
+        tracing::subscriber::set_global_default(
+            tracing_subscriber::registry().with(tracing_tracy::TracyLayer::new()),
+        ).unwrap();
+    }
+
     loop {
         profiling::scope!("Main Thread");
         some_function();
@@ -43,22 +57,37 @@ fn main() {
     }
 }
 
+fn burn_time(millis: u128) {
+    let start_time = std::time::Instant::now();
+    loop {
+        if (std::time::Instant::now() - start_time).as_millis() > millis {
+            break;
+        }
+    }
+}
+
+// This `profiling::function` attribute is equivalent to profiling::scope!(function_name)
 #[profiling::function]
 fn some_function() {
-    profiling::scope!("some_function");
-    std::thread::sleep(std::time::Duration::from_millis(5));
+    burn_time(5);
 }
 
 fn some_other_function(iterations: usize) {
     profiling::scope!("some_other_function");
-    std::thread::sleep(std::time::Duration::from_millis(5));
-    for i in 0..iterations {
-        some_inner_function_that_sleeps(i);
-        std::thread::sleep(std::time::Duration::from_millis(1));
+    burn_time(5);
+
+    {
+        profiling::scope!("do iterations");
+        for i in 0..iterations {
+            profiling::scope!("some_inner_function_that_sleeps", format!("other data {}", i).as_str());
+            optick::tag!("extra_data", "MORE DATA");
+            some_inner_function(i);
+            burn_time(1);
+        }
     }
 }
 
-fn some_inner_function_that_sleeps(_iteration_index: usize) {
-    profiling::scope!("some_inner_function_that_sleeps");
-    std::thread::sleep(std::time::Duration::from_millis(10));
+#[profiling::function]
+fn some_inner_function(_iteration_index: usize) {
+    burn_time(10);
 }
