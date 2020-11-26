@@ -6,13 +6,17 @@ env:
   CARGO_TERM_COLOR: always
 
 # Just test windows as several of the profilers don't do anything or fail to build on other platforms
-# TODO: Set up individual tests for other platforms that enable specifically what's supported
 jobs:
   build:
     strategy:
       matrix:
         toolchain: [stable, beta]
-        os: [windows-2019]
+        os: [windows-2019, ubuntu-20.04, macos-10.15]
+        exclude:
+          - os: macos-10.15
+            toolchain: beta
+          - os: windows-2019
+            toolchain: beta
     runs-on: ${{ matrix.os }}
     needs: clean
     steps:
@@ -29,13 +33,15 @@ jobs:
           key: ${{ runner.os }}-cargo-check-test-${{ matrix.toolchain }}-${{ hashFiles('**/Cargo.lock') }}
 
       - name: Build
-        run: cargo check
+        run: cargo check --all-features --all-targets
         env:
           CARGO_INCREMENTAL: 0
           RUSTFLAGS: "-C debuginfo=0 -D warnings"
 
+      # Only do this on windows, some of the profilers only support windows
       - name: Run tests
         run: cargo test --workspace
+        if: ${{ runner.os == 'Windows' && matrix.toolchain == 'stable' }}
         env:
           CARGO_INCREMENTAL: 0
           RUSTFLAGS: "-C debuginfo=0 -D warnings"

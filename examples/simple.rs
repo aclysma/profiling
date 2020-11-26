@@ -1,12 +1,21 @@
-fn main() {
-    // Just check that one of these features was enabled because otherwise, nothing interesting will happen
-    #[cfg(not(any(
-        feature = "profile-with-puffin",
-        feature = "profile-with-tracy",
-        feature = "profile-with-optick"
-    )))]
-    panic!("No profiler feature flags were enabled. Since this is an example, this is probably a mistake.");
+#![allow(dead_code)]
 
+#[cfg(not(any(
+    feature = "profile-with-puffin",
+    feature = "profile-with-tracy",
+    feature = "profile-with-optick"
+)))]
+fn main() {
+    panic!("No profiler feature flags were enabled. Since this is an example, this is probably a mistake.");
+}
+
+// Just check that one of these features was enabled because otherwise, nothing interesting will happen
+#[cfg(any(
+    feature = "profile-with-puffin",
+    feature = "profile-with-tracy",
+    feature = "profile-with-optick"
+))]
+fn main() {
     // Good to call this on any threads that are created to get clearer profiling results
     profiling::register_thread!("Main Thread");
 
