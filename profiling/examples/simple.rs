@@ -4,33 +4,15 @@ use tracing;
 use tracy_client;
 
 fn main() {
-    println!("Starting loop, profiler can now be attached");
+    // Just check that one of these features was enabled because otherwise, nothing interesting will happen
+    #[cfg(not(any(feature = "profile-with-puffin", feature = "profile-with-tracy", feature = "profile-with-optick")))]
+    panic!("No profiler feature flags were enabled. Since this is an example, this is probably a mistake.");
 
-    #[allow(unused_mut)]
-    #[allow(unused_assignments)]
-    let mut any_profiler_enabled = false;
+    // Good to call this on any threads that are created to get clearer profiling results
+    profiling::register_thread!("Main Thread");
 
-    #[allow(unused_assignments)]
-    #[cfg(feature = "profile-with-puffin")]
-    {
-        any_profiler_enabled = true;
-    }
-
-    #[allow(unused_assignments)]
-    #[cfg(feature = "profile-with-optick")]
-    {
-        any_profiler_enabled = true;
-    }
-
-    assert!(any_profiler_enabled, "No profiler feature flags were enabled. Since this is an example, this is probably a mistake.");
-
-    #[cfg(feature = "profile-with-optick")]
-    optick::register_thread("main");
-
-    #[cfg(feature = "profile-with-tracy")]
-    tracy_client::set_thread_name("Main Thread");
-
-    // Tracy requires having a layer set up with the tracing crate
+    // Set up the tracy layer in the tracing crate. This step is specific to tracy and not needed
+    // with other profilers.
     #[cfg(feature = "profile-with-tracy")]
     {
         use tracing_subscriber::layer::SubscriberExt;
@@ -39,21 +21,22 @@ fn main() {
         ).unwrap();
     }
 
+    // Turn on tracing for puffin (you would still need to render/save this somehow!)
+    #[cfg(feature = "profile-with-puffin")]
+    puffin::set_scopes_on(true);
+
+    println!("Starting loop, profiler can now be attached");
+
     loop {
+        // Generate some profiling info
         profiling::scope!("Main Thread");
         some_function();
         some_other_function(10);
 
         println!("frame complete");
 
-        #[cfg(feature = "profile-with-puffin")]
-        puffin::GlobalProfiler::lock().new_frame();
-
-        #[cfg(feature = "profile-with-optick")]
-        optick::next_frame();
-
-        #[cfg(feature = "profile-with-tracy")]
-        tracy_client::finish_continuous_frame!();
+        // Finish the frame.
+        profiling::finish_frame!();
     }
 }
 

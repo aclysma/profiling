@@ -228,7 +228,7 @@ fn main() {
                     *control_flow = winit::event_loop::ControlFlow::Exit
                 }
 
-                puffin::GlobalProfiler::lock().new_frame();
+                profiling::finish_frame!();
             }
 
             //
