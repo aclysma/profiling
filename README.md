@@ -1,13 +1,27 @@
 # profiling
 
-Provides an very thin abstraction over instrumented profiling crates like puffin, optick, and tracy.
+Provides a very thin abstraction over instrumented profiling crates like `puffin`, `optick`, `tracy`, and `superluminal-perf`.
+Currently, there's just four macros:
+ * `profiling::scope!(name: &str [, tag: &str])`
+     * name: scopes will appear in the profiler under this name
+     * tag: optional extra data
+ * `#[profiling::function]`
+     * procmacro placed on a function to quickly wrap it in a scope using the function name
+ * `profiling::register_thread!([name: &str])`
+     * name: optional, defaults to std::thread::current().name, or .id if it's unnamed
+ * `profiling::finish_frame!()`
+     * Many profilers have the concept of a "frame" as a unit of work. Use this to indicate where one frame ends and the
+       next one begins.
 
-## Who Is This For?
+Support for individual profilers can be turned on/off with feature flags. By default, they're all off, resulting in
+no dependencies or runtime code.
+
+## Who is this for?
  * Authors of binaries that want to have multiple options for profiling their code, but don't want to duplicate their
    instrumentation once per each profiler's individual API.
  * Authors of libraries that would like to instrument their crate for their end-users.
  
-This crate is intended to be as **TINY**. It won't support every possible usage, just the basics. I'm open to adding
+This crate is intended to be **TINY**. It won't support every possible usage, just the basics. I'm open to adding
 a few more things but I plan to be very selective to maintain a very slim size.
 
 Why not use the tracing crate? The tracing crate is significantly larger than necessary for this narrow use-case,
@@ -23,23 +37,25 @@ Why not use puffin/optick/etc. directly?
    allow the community to benefit from instrumented profiling, even if a significant amount of a codebase is made
    of upstream crates.
 
-## Using From a Binary
+## Using from a Binary
 
 It's up to you to initialize the profiling crate of your choice. The examples demonstrate this, but it's worth looking
-at the docs for the profiler your're interested in using! Once initialized, you can mix/match the macros provided
+at the docs for the profiler you're interested in using! Once initialized, you can mix/match the macros provided
 by your profiler of choice and the generic ones in this crate. For example:
 
 ```rust
 // This may map to something like:
 // - puffin::profile_scope!("Scope Name")
 // - optick::event!("Scope Name")
-// - tracing::span!(tracing::Level::INFO, $name)
+// - tracing::span!(tracing::Level::INFO, "Scope Name")
+// - superluminal_perf::begin_event("Scope Name")
 profiling::scope!("Scope Name");
 
 // This may map to something like:
 // - puffin::profile_scope_data!("Scope Name", "extra data")
 // - optick::event!("Scope Name"); optick::tag!("tag", "extra data");
 // - tracing::span!(tracing::Level::INFO, "Scope Name", tag = "extra data")
+// - superluminal_perf::begin_event_with_data("Scope Name", "extra data", 0)
 profiling::scope!("Scope Name", "extra data");
 ```
 
@@ -72,7 +88,7 @@ profile-with-superluminal = ["profiling/profile-with-superluminal", "some_upstre
 profile-with-tracing = ["profiling/profile-with-tracing", "some_upstream_crate/profile-with-tracing", "tracing"]
 ```
 
-## Using From a Library
+## Using from a Library
 
 Add the profiling crate to Cargo.toml Add the following features but don't enable them. Those features should only be
 enabled by the binary. If the end-user of your library doesn't use profiling, the macros in this crate will emit no code
@@ -106,7 +122,7 @@ described above.
 
 ## Examples
 
- * simple: Shows a bare minimum requirents to do some simple instrumented profiling. Once it's running, you
+ * simple: Shows a bare minimum requirements to do some simple instrumented profiling. Once it's running, you
    can connect to the process using optick/tracy/superluminal. Some of these are windows only!
 
 ```
