@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.4
+ * Fix the color passed to superluminal so that scopes are default-colored
+
 ## 0.1.3
  * Re-export the profiler crates, simplifying changes needed in end-user's cargo.toml
 
