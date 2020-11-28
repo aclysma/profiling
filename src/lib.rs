@@ -121,6 +121,29 @@ macro_rules! finish_frame {
     };
 }
 
+/// The default scope color when using superluminal
+pub const DEFAULT_SCOPE_COLOR: u32 = 0xFFFFFFFF;
+
+/// Format is RRGGBBAA. 0xFFFFFFFF indicates use default (profiling::DEFAULT_SUPERLUMINAL_COLOR)
+pub fn set_superluminal_scope_color(color: u32) {
+    SCOPE_COLOR.with(|x| x.set(color));
+}
+
+use std::cell::Cell;
+
+std::thread_local! {
+    static SCOPE_COLOR: Cell<u32> = Cell::new(DEFAULT_SCOPE_COLOR);
+}
+
+#[macro_export]
+macro_rules! scope_color {
+    ($color:expr) => {
+        #[cfg(feature = "profile-with-superluminal")]
+        let _superluminal_scope_color_guard =
+            $crate::superluminal::SuperluminalScopeColorGuard::new($color);
+    };
+}
+
 //
 // RAII wrappers to support superluminal. These are public as they need to be callable from macros
 // but are not intended for direct use.
@@ -131,11 +154,10 @@ pub mod superluminal {
     pub struct SuperluminalGuard;
 
     // 0xFFFFFFFF means "use default color"
-    const DEFAULT_SUPERLUMINAL_COLOR: u32 = 0xFFFFFFFF;
 
     impl SuperluminalGuard {
         pub fn new(name: &str) -> Self {
-            superluminal_perf::begin_event(name);
+            superluminal_perf::begin_event_with_color(name, super::SCOPE_COLOR.with(|x| x.get()));
             SuperluminalGuard
         }
 
@@ -143,7 +165,11 @@ pub mod superluminal {
             name: &str,
             data: &str,
         ) -> Self {
-            superluminal_perf::begin_event_with_data(name, data, DEFAULT_SUPERLUMINAL_COLOR);
+            superluminal_perf::begin_event_with_data(
+                name,
+                data,
+                super::SCOPE_COLOR.with(|x| x.get()),
+            );
             SuperluminalGuard
         }
     }
@@ -151,6 +177,28 @@ pub mod superluminal {
     impl Drop for SuperluminalGuard {
         fn drop(&mut self) {
             superluminal_perf::end_event();
+        }
+    }
+
+    pub struct SuperluminalScopeColorGuard {
+        previous_color: u32,
+    }
+
+    impl SuperluminalScopeColorGuard {
+        pub fn new(new_color: u32) -> Self {
+            super::SCOPE_COLOR.with(|x| {
+                let previous_color = x.get();
+                x.set(new_color);
+                SuperluminalScopeColorGuard { previous_color }
+            })
+        }
+    }
+
+    impl Drop for SuperluminalScopeColorGuard {
+        fn drop(&mut self) {
+            super::SCOPE_COLOR.with(|x| {
+                x.set(self.previous_color);
+            })
         }
     }
 }

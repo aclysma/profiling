@@ -65,23 +65,29 @@ fn some_function() {
 }
 
 fn some_other_function(iterations: usize) {
-    profiling::scope!("some_other_function");
-    burn_time(5);
+    profiling::scope!("some_other_function outer");
+    profiling::scope_color!(0x00FF00FF);
 
     {
-        profiling::scope!("do iterations");
-        for i in 0..iterations {
-            profiling::scope!(
-                "some_inner_function_that_sleeps",
-                format!("other data {}", i).as_str()
-            );
+        profiling::scope!("some_other_function inner");
+        burn_time(5);
 
-            // Mixing general profiling API calls with profiler-specific API calls is allowed
-            #[cfg(feature = "profile-with-optick")]
-            profiling::optick::tag!("extra_data", "MORE DATA");
+        {
+            profiling::scope_color!(0xFF0000FF);
+            profiling::scope!("do iterations");
+            for i in 0..iterations {
+                profiling::scope!(
+                    "some_inner_function_that_sleeps",
+                    format!("other data {}", i).as_str()
+                );
 
-            some_inner_function(i);
-            burn_time(1);
+                // Mixing general profiling API calls with profiler-specific API calls is allowed
+                #[cfg(feature = "profile-with-optick")]
+                profiling::optick::tag!("extra_data", "MORE DATA");
+
+                some_inner_function(i);
+                burn_time(1);
+            }
         }
     }
 }
