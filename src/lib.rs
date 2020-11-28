@@ -130,6 +130,9 @@ macro_rules! finish_frame {
 pub mod superluminal {
     pub struct SuperluminalGuard;
 
+    // 0xFFFFFFFF means "use default color"
+    const DEFAULT_SUPERLUMINAL_COLOR: u32 = 0xFFFFFFFF;
+
     impl SuperluminalGuard {
         pub fn new(name: &str) -> Self {
             superluminal_perf::begin_event(name);
@@ -140,7 +143,7 @@ pub mod superluminal {
             name: &str,
             data: &str,
         ) -> Self {
-            superluminal_perf::begin_event_with_data(name, data, 0);
+            superluminal_perf::begin_event_with_data(name, data, DEFAULT_SUPERLUMINAL_COLOR);
             SuperluminalGuard
         }
     }
