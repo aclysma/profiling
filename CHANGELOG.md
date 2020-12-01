@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.5
+ * More info in readme, no functional change
+
 ## 0.1.4
  * Fix the color passed to superluminal so that scopes are default-colored
 

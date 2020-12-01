@@ -1,6 +1,52 @@
 # profiling
 
 Provides a very thin abstraction over instrumented profiling crates like `puffin`, `optick`, `tracy`, and `superluminal-perf`.
+
+Mark up your code like this:
+
+```rust
+#[profiling::function]
+fn some_function() {
+    burn_time(5);
+
+    for i in 0..5 {
+        profiling::scope!("Looped Operation");
+    }
+}
+```
+
+See below for resulting visualization and more details on the exposed API.
+
+**Friendly Warning:** Some profiler backends implicitly listen on network ports immediately when the host app is
+launched. If this is a concern, please review the enabled profiler(s) documentation for details!
+
+## Puffin
+
+https://github.com/EmbarkStudios/puffin
+
+Unlike the other backends, `puffin` relies on your app providing an imgui window to draw the UI in-process. The
+below screenshots have a profiled application open with the puffin imgui window visible.
+
+## Optick
+
+https://optick.dev
+
+[![Optick](screenshots/optick-small.png)](screenshots/optick.jpeg)
+
+## Superluminal
+
+https://superluminal.eu
+
+[![Superluminal](screenshots/superluminal-small.png)](screenshots/superluminal.jpeg)
+
+## Tracy
+
+https://github.com/wolfpld/tracy
+
+[![Tracy](screenshots/tracy-small.png)](screenshots/tracy.jpeg)
+
+## Usage
+
 Currently, there's just four macros:
  * `profiling::scope!(name: &str, [tag: &str])`
      * name: scopes will appear in the profiler under this name
@@ -22,11 +68,12 @@ no dependencies or runtime code.
  * Authors of libraries that would like to instrument their crate for their end-users.
  
 This crate is intended to be **TINY**. It won't support every possible usage, just the basics. I'm open to adding
-a few more things but I plan to be very selective to maintain a very slim size.
+more things but I plan to be very selective to maintain a slim size.
 
-Why not use the tracing crate? The tracing crate is significantly larger than necessary for this narrow use-case,
-and it's expected that these scopes may end up on a very hot path where any overhead at all can add noise to the
-captured data.
+Why not use the `tracing` crate? `tracing` is more flexible than `profiling` but is significantly larger and has
+some potential runtime cost. `profiling` targets just instrumented profiling. Instrumentation is inserted directly
+into your code inline via macros as if you were using the profiler's crate directly. This results in smaller code with
+no additional overhead.
 
 Why not use puffin/optick/etc. directly?
  * For authors of binaries, you'll still need to use APIs on those crates to get started. But when instrumenting your
