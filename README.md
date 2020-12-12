@@ -70,13 +70,15 @@ no dependencies or runtime code.
 This crate is intended to be **TINY**. It won't support every possible usage, just the basics. I'm open to adding
 more things but I plan to be very selective to maintain a slim size.
 
-Why not use the `tracing` crate? `tracing` is more flexible than `profiling` but is significantly larger and has
-some potential runtime cost. `profiling` targets just instrumented profiling. Instrumentation is inserted directly
+## Alternatives
+
+**tracing**: `tracing` is more flexible than `profiling` but is significantly larger and has
+some potential runtime cost. `profiling` is only useful for instrumented profiling. Instrumentation is inserted directly
 into your code inline via macros as if you were using the profiler's crate directly. This results in smaller code with
 no additional overhead.
 
-Why not use puffin/optick/etc. directly?
- * For authors of binaries, you'll still need to use APIs on those crates to get started. But when instrumenting your
+Using profiling crates (i.e. puffin/optick/etc.) directly:
+ * For authors of binaries, you may still need to use APIs on those crates to get started. But when instrumenting your
    code, `profiling::scope!("Scope Name")` inside a function or `#[profiling::function]` on a function will instrument 
    it for all the supported profiler-specific crates. You can still use those crates directly if you want to take 
    advantage of custom APIs they provide to surface additional data.
@@ -86,9 +88,13 @@ Why not use puffin/optick/etc. directly?
 
 ## Using from a Binary
 
-It's up to you to initialize the profiling crate of your choice. The examples demonstrate this, but it's worth looking
-at the docs for the profiler you're interested in using! Once initialized, you can mix/match the macros provided
-by your profiler of choice and the generic ones in this crate. For example:
+It's up to you to initialize the profiling crate of your choice (although some do not need explicit initialization
+and will immediately work). The examples demonstrate this for all the supported crates, but it's worth looking
+at the docs for the profiler you're interested in using! `profiling` re-exports the profiler crates if they are
+enabled, simplifying the modifications you would need to make to your Cargo.toml.
+
+Once initialized, you can mix/match the macros provided by your profiler of choice and the generic ones in this 
+crate. For example:
 
 ```rust
 // This may map to something like:
@@ -130,6 +136,7 @@ profile-with-puffin = ["profiling/profile-with-puffin", "some_upstream_crate/pro
 profile-with-optick = ["profiling/profile-with-optick", "some_upstream_crate/profile-with-optick"]
 profile-with-superluminal = ["profiling/profile-with-superluminal", "some_upstream_crate/profile-with-superluminal"]
 profile-with-tracing = ["profiling/profile-with-tracing", "some_upstream_crate/profile-with-tracing"]
+profile-with-tracy = ["profiling/profile-with-tracing", "some_upstream_crate/profile-with-tracy"]
 ```
 
  * You can use the default feature to quickly/temporarily turn something on: `default = ["profile-with-optick"]`
@@ -150,6 +157,7 @@ profile-with-puffin = ["profiling/profile-with-puffin"]
 profile-with-optick = ["profiling/profile-with-optick"]
 profile-with-superluminal = ["profiling/profile-with-superluminal"]
 profile-with-tracing = ["profiling/profile-with-tracing"]
+profile-with-tracy = ["profiling/profile-with-tracy"]
 ```
 
 Now you can instrument your library using the API exposed via the `profiling` crate and support each profiler.
@@ -162,7 +170,8 @@ described above.
  * profile-with-puffin: Enable the `puffin` crate
  * profile-with-optick: Enable the `optick` crate
  * profile-with-superluminal: Enable the `superluminal-perf` crate
- * profile-with-tracing: Enable the `tracing` crate. (The profiler crate `tracy` consumes data through this abstraction)
+ * profile-with-tracing: Enable the `tracing` crate. (This is just an abstraction layer - you'd want to hook it to do something!)
+ * profile-with-tracy: Enable the `tracy-client` crate.
 
 ## Examples
 
