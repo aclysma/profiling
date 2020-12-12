@@ -7,10 +7,11 @@ pub use optick;
 #[cfg(feature = "profile-with-superluminal")]
 pub use superluminal_perf;
 
+#[cfg(feature = "profile-with-tracy")]
+pub use tracy_client;
+
 #[cfg(feature = "profile-with-tracing")]
 pub use tracing;
-#[cfg(feature = "profile-with-tracing")]
-pub use tracy_client;
 
 /// Opens a scope. Two variants:
 ///  - profiling::scope!(name: &str) - Opens a scope with the given name
@@ -36,12 +37,16 @@ macro_rules! scope {
         #[cfg(feature = "profile-with-superluminal")]
         let _superluminal_guard = $crate::superluminal::SuperluminalGuard::new($name);
 
+        #[cfg(feature = "profile-with-tracy")]
+        // Note: callstack_depth is 0 since this has significant overhead
+        let _tracy_span = $crate::tracy_client::Span::new($name, "", file!(), line!(), 0);
+
         #[cfg(feature = "profile-with-tracing")]
         let _span = $crate::tracing::span!(tracing::Level::INFO, $name);
         #[cfg(feature = "profile-with-tracing")]
         let _span_entered = _span.enter();
     };
-    // NOTE: I've not been able to get attached data to work with optick and tracy
+    // NOTE: I've not been able to get attached data to work with optick
     ($name:expr, $data:expr) => {
         #[cfg(feature = "profile-with-puffin")]
         $crate::puffin::profile_scope_data!($name, $data);
@@ -54,6 +59,11 @@ macro_rules! scope {
         #[cfg(feature = "profile-with-superluminal")]
         let _superluminal_guard =
             $crate::superluminal::SuperluminalGuard::new_with_data($name, $data);
+
+        #[cfg(feature = "profile-with-tracy")]
+        let _tracy_span = $crate::tracy_client::Span::new($name, "", file!(), line!(), 0);
+        #[cfg(feature = "profile-with-tracy")]
+        _tracy_span.emit_text($data);
 
         #[cfg(feature = "profile-with-tracing")]
         let _span = $crate::tracing::span!(tracing::Level::INFO, $name, tag = $data);
