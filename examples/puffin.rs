@@ -171,9 +171,13 @@ fn main() {
     let mut app = ExampleApp::new();
     let mut time_state = skulpin::app::TimeState::new();
 
+    let mut poll_scope_guard = None;
+
     // Start the window event loop. Winit will not return once run is called. We will get notified
     // when important events happen.
     event_loop.run(move |event, _window_target, control_flow| {
+        poll_scope_guard.take();
+
         let window = skulpin::WinitWindow::new(&winit_window);
 
         imgui_manager.handle_event(&winit_window, &event);
@@ -220,17 +224,29 @@ fn main() {
             //
             winit::event::Event::RedrawRequested(_window_id) => {
                 if let Err(e) = renderer.draw(&window, |canvas, coordinate_system_helper| {
+                    profiling::manual_scope!(guard, "begin_frame", "test data");
                     imgui_manager.begin_frame(&winit_window);
+                    drop(guard);
 
+                    profiling::manual_scope!(guard, "draw");
                     app.draw(canvas, &coordinate_system_helper, &imgui_manager);
+                    drop(guard);
 
+                    profiling::manual_scope!(guard, "render");
                     imgui_manager.render(&winit_window);
+                    drop(guard);
                 }) {
                     println!("Error during draw: {:?}", e);
                     *control_flow = winit::event_loop::ControlFlow::Exit
                 }
 
                 profiling::finish_frame!();
+            }
+
+            winit::event::Event::RedrawEventsCleared => {
+                std::thread::sleep(std::time::Duration::from_millis(10));
+                profiling::manual_scope!(guard, "poll winit");
+                poll_scope_guard = Some(guard);
             }
 
             //

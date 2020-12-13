@@ -1,3 +1,6 @@
+#[doc(hidden)]
+pub mod guard;
+
 #[cfg(feature = "profile-with-puffin")]
 pub use puffin;
 
@@ -35,7 +38,7 @@ macro_rules! scope {
         $crate::optick::event!($name);
 
         #[cfg(feature = "profile-with-superluminal")]
-        let _superluminal_guard = $crate::superluminal::SuperluminalGuard::new($name);
+        let _superluminal_guard = $crate::guard::superluminal::SuperluminalGuard::new($name);
 
         #[cfg(feature = "profile-with-tracy")]
         // Note: callstack_depth is 0 since this has significant overhead
@@ -58,7 +61,7 @@ macro_rules! scope {
 
         #[cfg(feature = "profile-with-superluminal")]
         let _superluminal_guard =
-            $crate::superluminal::SuperluminalGuard::new_with_data($name, $data);
+            $crate::guard::superluminal::SuperluminalGuard::new_with_data($name, $data);
 
         #[cfg(feature = "profile-with-tracy")]
         let _tracy_span = $crate::tracy_client::Span::new($name, "", file!(), line!(), 0);
@@ -69,6 +72,83 @@ macro_rules! scope {
         let _span = $crate::tracing::span!(tracing::Level::INFO, $name, tag = $data);
         #[cfg(feature = "profile-with-tracing")]
         let _span_entered = _span.enter();
+    };
+}
+
+/// Opens a scope with a named binding for the guard allowing it to be manually managed. This is useful if you want to break up a function into multiple sections in the profiling output without increasing the indentation levels. Two variants:
+///  - profiling::manual_scope!(guard, name: &str) - Opens a scope with the given name
+///  - profiling::manual_scope!(guard, name: &str, data: &str) - Opens a scope with the given name and an extra
+///    datafield. Details of this depend on the API, but it should be a &str. If the extra data is
+///    named, it will be named "tag". Some APIs support adding more data (for example, `optic::tag!`)
+///
+/// ```
+/// profiling::manual_scope!(guard, "outer");
+/// for _ in 0..10 {
+///     profiling::manual_scope!(_guard, "inner", format!("iteration {}").as_str());
+/// }
+/// drop(guard);
+/// ```
+#[macro_export]
+macro_rules! manual_scope {
+    ($guard:tt, $name:expr) => {
+        let $guard = $crate::guard::Guard {
+            #[cfg(feature = "profile-with-puffin")]
+            puffin: if $crate::puffin::are_scopes_on() {
+                Some($crate::puffin::ProfilerScope::new(
+                    $name,
+                    $crate::puffin::current_file_name!(),
+                    "",
+                ))
+            } else {
+                None
+            },
+
+            // Note: optick unsupported
+            #[cfg(feature = "profile-with-superluminal")]
+            superluminal: $crate::guard::superluminal::SuperluminalGuard::new($name),
+
+            #[cfg(feature = "profile-with-tracy")]
+            tracy: $crate::tracy_client::Span::new($name, "", file!(), line!(), 0),
+
+            #[cfg(feature = "profile-with-tracing")]
+            tracing: $crate::guard::tracing::TracingGuard::new($crate::tracing::span!(
+                tracing::Level::INFO,
+                $name
+            )),
+        };
+    };
+    // NOTE: I've not been able to get attached data to work with optick
+    ($guard:tt, $name:expr, $data:expr) => {
+        let $guard = $crate::guard::Guard {
+            #[cfg(feature = "profile-with-puffin")]
+            puffin: if $crate::puffin::are_scopes_on() {
+                Some($crate::puffin::ProfilerScope::new(
+                    $name,
+                    $crate::puffin::current_file_name!(),
+                    $data,
+                ))
+            } else {
+                None
+            },
+
+            // Note: optick unsupported
+            #[cfg(feature = "profile-with-superluminal")]
+            superluminal: $crate::superluminal::SuperluminalGuard::new_with_data($name, $data),
+
+            #[cfg(feature = "profile-with-tracy")]
+            tracy: {
+                let span = $crate::tracy_client::Span::new($name, "", file!(), line!(), 0);
+                span.emit_text($data);
+                span
+            },
+
+            #[cfg(feature = "profile-with-tracing")]
+            tracing: $crate::guard::tracing::TracingGuard::new($crate::tracing::span!(
+                tracing::Level::INFO,
+                $name,
+                tag = $data
+            )),
+        };
     };
 }
 
@@ -131,36 +211,7 @@ macro_rules! finish_frame {
     };
 }
 
-//
-// RAII wrappers to support superluminal. These are public as they need to be callable from macros
-// but are not intended for direct use.
-//
-#[cfg(feature = "profile-with-superluminal")]
+// Maintain current public API
 #[doc(hidden)]
-pub mod superluminal {
-    pub struct SuperluminalGuard;
-
-    // 0xFFFFFFFF means "use default color"
-    const DEFAULT_SUPERLUMINAL_COLOR: u32 = 0xFFFFFFFF;
-
-    impl SuperluminalGuard {
-        pub fn new(name: &str) -> Self {
-            superluminal_perf::begin_event(name);
-            SuperluminalGuard
-        }
-
-        pub fn new_with_data(
-            name: &str,
-            data: &str,
-        ) -> Self {
-            superluminal_perf::begin_event_with_data(name, data, DEFAULT_SUPERLUMINAL_COLOR);
-            SuperluminalGuard
-        }
-    }
-
-    impl Drop for SuperluminalGuard {
-        fn drop(&mut self) {
-            superluminal_perf::end_event();
-        }
-    }
-}
+#[cfg(feature = "profile-with-superluminal")]
+pub use guard::superluminal;
