@@ -1,6 +1,6 @@
 # Changelog
 
-## Unpublished
+## 0.1.6
  * Use tracy directly instead of going through tracy (use the profile-with-tracy feature).
  * Going through tracing is still possible and demonstrated in the example (use the profile-with-tracing feature).
  * Function instrumentation is now recorded to superluminal

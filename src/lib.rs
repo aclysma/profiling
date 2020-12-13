@@ -7,11 +7,11 @@ pub use optick;
 #[cfg(feature = "profile-with-superluminal")]
 pub use superluminal_perf;
 
-#[cfg(feature = "profile-with-tracy")]
-pub use tracy_client;
-
 #[cfg(feature = "profile-with-tracing")]
 pub use tracing;
+
+#[cfg(feature = "profile-with-tracy")]
+pub use tracy_client;
 
 /// Opens a scope. Two variants:
 ///  - profiling::scope!(name: &str) - Opens a scope with the given name
