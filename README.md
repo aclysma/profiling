@@ -45,6 +45,18 @@ https://github.com/wolfpld/tracy
 
 [![Tracy](screenshots/tracy-small.png)](screenshots/tracy.jpeg)
 
+## Tracing
+
+The tracing backend injects tracing `span!()` macros that match the lifetime of the profiling macros.
+Tracing uses callbacks rather than inlining specific pre-determined code,
+so it is more flexible than profiling
+(at the cost of more lines of code and potentially higher overhead).
+This allows existing and new tracing-compatible handlers to work with profiling.
+
+https://crates.io/crates/tracing
+
+<img src="https://raw.githubusercontent.com/tokio-rs/tracing/master/assets/splash.svg" width="600" height="200" alt="Tracing logo" />
+
 ## Usage
 
 Currently, there's just four macros:
