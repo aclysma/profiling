@@ -45,6 +45,12 @@ https://github.com/wolfpld/tracy
 
 [![Tracy](screenshots/tracy-small.png)](screenshots/tracy.jpeg)
 
+## Tracing
+
+https://crates.io/crates/tracing
+
+[![Tracing](https://raw.githubusercontent.com/tokio-rs/tracing/master/assets/splash.svg)](https://raw.githubusercontent.com/tokio-rs/tracing/master/assets/splash.svg)
+
 ## Usage
 
 Currently, there's just four macros:
