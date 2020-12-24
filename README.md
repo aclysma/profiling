@@ -55,7 +55,7 @@ This allows existing and new tracing-compatible handlers to work with profiling.
 
 https://crates.io/crates/tracing
 
-[![Tracing](https://raw.githubusercontent.com/tokio-rs/tracing/master/assets/splash.svg)](https://raw.githubusercontent.com/tokio-rs/tracing/master/assets/splash.svg)
+<img src="https://raw.githubusercontent.com/tokio-rs/tracing/master/assets/splash.svg" width="600" height="200" alt="Tracing logo" />
 
 ## Usage
 
