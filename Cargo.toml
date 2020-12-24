@@ -34,7 +34,7 @@ puffin-imgui = "0.5"
 log = "0.4"
 env_logger = "0.6"
 imgui = "0.6"
-imgui-winit-support = "0.6"
+imgui-winit-support = "=0.6.0"
 
 tracing-tracy = { version = "0.4.0" }
 tracing-subscriber = { version = "0.2" }
