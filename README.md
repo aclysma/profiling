@@ -22,40 +22,45 @@ launched. If this is a concern, please review the enabled profiler(s) documentat
 
 ## Puffin
 
-https://github.com/EmbarkStudios/puffin
-
-Unlike the other backends, `puffin` relies on your app providing an imgui window to draw the UI in-process. The
+* https://github.com/EmbarkStudios/puffin
+* Cross-platform
+* Unlike the other backends, `puffin` relies on your app providing an imgui window to draw the UI in-process. The
 below screenshots have a profiled application open with the puffin imgui window visible.
 
 ## Optick
 
-https://optick.dev
+* https://optick.dev
+* The upstream crate only provides binaries for windows. However it could probably be made to work by building
+optick capture code and linking against it manually. The UI is windows only.
 
 [![Optick](screenshots/optick-small.png)](screenshots/optick.jpeg)
 
 ## Superluminal
 
-https://superluminal.eu
+* https://superluminal.eu
+* Windows only
 
 [![Superluminal](screenshots/superluminal-small.png)](screenshots/superluminal.jpeg)
 
-## Tracy
-
-https://github.com/wolfpld/tracy
-
-[![Tracy](screenshots/tracy-small.png)](screenshots/tracy.jpeg)
-
 ## Tracing
 
-The tracing backend injects tracing `span!()` macros that match the lifetime of the profiling macros.
+* https://crates.io/crates/tracing
+* Cross-platform  
+* The tracing backend injects tracing `span!()` macros that match the lifetime of the profiling macros.
 Tracing uses callbacks rather than inlining specific pre-determined code,
 so it is more flexible than profiling
 (at the cost of more lines of code and potentially higher overhead).
 This allows existing and new tracing-compatible handlers to work with profiling.
 
-https://crates.io/crates/tracing
+![Tracing](screenshots/tracing.png)
 
-<img src="https://raw.githubusercontent.com/tokio-rs/tracing/master/assets/splash.svg" width="600" height="200" alt="Tracing logo" />
+## Tracy
+
+* https://github.com/wolfpld/tracy
+* Cross-platform, but currently unstable on macOS. It could probably be fixed.
+(See https://github.com/wolfpld/tracy/issues/117)
+
+[![Tracy](screenshots/tracy-small.png)](screenshots/tracy.jpeg)
 
 ## Usage
 
