@@ -6,7 +6,7 @@ members = [
 
 [package]
 name = "profiling"
-version = "0.1.7"
+version = "0.1.8"
 authors = ["Philip Degarmo <aclysma@gmail.com>"]
 edition = "2018"
 description = "This crate provides a very thin abstraction over other profiler crates."
