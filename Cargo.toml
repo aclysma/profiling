@@ -28,13 +28,13 @@ superluminal-perf = { version = "0.1", optional = true }
 profiling-procmacros = { version = "0.1.3", path = "profiling-procmacros", optional = true }
 
 [dev-dependencies]
-skulpin = { version = "0.11.1", default-features = false, features = ["skia_complete", "skulpin_winit", "winit-23"] }
-skulpin-plugin-imgui = "0.7"
+skulpin = { version = "0.11.2", default-features = false, features = ["skia_complete", "skulpin_winit", "winit-24"] }
+skulpin-plugin-imgui = "0.7.1"
 puffin-imgui = "0.5"
 log = "0.4"
 env_logger = "0.6"
 imgui = "0.6"
-imgui-winit-support = "=0.6.0"
+imgui-winit-support = "0.6.1"
 
 tracing-tracy = { version = "0.4.0" }
 tracing-subscriber = { version = "0.2" }
