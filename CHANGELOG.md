@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.8
+ * Bump tracy client version to 0.11 (tracy now uses the 0.7.5 protocol)
+
 ## 0.1.7
  * Re-release due to root cargo.toml referencing 0.1.2 of procmacro crate instead of 0.1.3
 
