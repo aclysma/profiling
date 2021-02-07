@@ -63,7 +63,7 @@ fn main() {
 
     // Create a single window
     let window = winit::window::WindowBuilder::new()
-        .with_title("Skulpin")
+        .with_title("Profiling Demo")
         .with_inner_size(logical_size)
         .build(&event_loop)
         .expect("Failed to create window");

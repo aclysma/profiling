@@ -240,24 +240,24 @@ impl Renderer {
         command_buffer: &RafxCommandBuffer,
         imgui_draw_data: Option<&imgui::DrawData>,
     ) -> RafxResult<()> {
-        //
-        // projection matrix
-        //
-        let dpi_scaling = 1.0;
-        let top = 0.0;
-        let bottom = self.swapchain_helper.swapchain_def().height as f32 / dpi_scaling;
-        let view_proj = glam::Mat4::orthographic_rh(
-            0.0,
-            self.swapchain_helper.swapchain_def().width as f32 / dpi_scaling,
-            bottom,
-            top,
-            -100.0,
-            100.0,
-        );
-
         let device_context = self.resource_manager.device_context();
         let dyn_resource_allocator = self.resource_manager.create_dyn_resource_allocator_set();
         if let Some(draw_data) = imgui_draw_data {
+            //
+            // projection matrix
+            //
+            let top = 0.0;
+            let bottom = self.swapchain_helper.swapchain_def().height as f32
+                / draw_data.framebuffer_scale[0];
+            let view_proj = glam::Mat4::orthographic_rh(
+                0.0,
+                self.swapchain_helper.swapchain_def().width as f32 / draw_data.framebuffer_scale[0],
+                bottom,
+                top,
+                -100.0,
+                100.0,
+            );
+
             //
             // Copy imgui draw data into vertex/index buffers
             //
