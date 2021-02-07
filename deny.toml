@@ -73,7 +73,7 @@ allow = [
     "MIT",
     "Apache-2.0",
     "BSD-3-Clause",
-    "BSD-2-Clause"
+    #"BSD-2-Clause"
     #"Apache-2.0 WITH LLVM-exception",
 ]
 # List of explictly disallowed licenses
@@ -106,12 +106,6 @@ confidence-threshold = 1.0
 exceptions = [
     # used by ash in an example
     { allow = ["ISC"], name = "libloading", version = "*" },
-
-    # All of these are used by skia-bindings which only active in demo code
-    { allow = ["MPL-2.0"], name = "webpki-roots", version = "*" },
-    { allow = ["ISC"], name = "webpki", version = "*" },
-    { allow = ["ISC"], name = "untrusted", version = "*" },
-    { allow = ["MIT", "ISC", "OpenSSL"], name = "ring", version = "*" },
 ]
 
 # Some crates don't have (easily) machine readable licensing information,
@@ -212,4 +206,4 @@ unknown-git = "deny"
 # if not specified. If it is specified but empty, no registries are allowed.
 allow-registry = ["https://github.com/rust-lang/crates.io-index"]
 # List of URLs for allowed Git repositories
-allow-git = []
+allow-git = ["https://github.com/EmbarkStudios/puffin.git"]
