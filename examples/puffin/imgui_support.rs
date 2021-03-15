@@ -298,7 +298,7 @@ fn init_imgui(window: &winit::window::Window) -> imgui::Context {
     let scale_factor = window.scale_factor().round();
     let font_size = (16.0 * scale_factor) as f32;
     imgui.fonts().add_font(&[imgui::FontSource::TtfData {
-        data: include_bytes!("mplus-1p-regular.ttf"),
+        data: include_bytes!("NotoSans-Medium.ttf"),
         size_pixels: font_size,
         config: None,
     }]);

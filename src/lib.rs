@@ -49,7 +49,7 @@ macro_rules! scope {
     // NOTE: I've not been able to get attached data to work with optick
     ($name:expr, $data:expr) => {
         #[cfg(feature = "profile-with-puffin")]
-        $crate::puffin::profile_scope_data!($name, $data);
+        $crate::puffin::profile_scope!($name, $data);
 
         #[cfg(feature = "profile-with-optick")]
         $crate::optick::event!($name);

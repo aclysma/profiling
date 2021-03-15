@@ -196,14 +196,14 @@ described above.
    can connect to the process using optick/tracy/superluminal. Some of these are windows only!
 
 ```
-run --package profiling --example simple --features="profile-with-optick,profile-with-tracy,profile-with-puffin,profile-with-superluminal" 
+run --example simple --features="profile-with-optick,profile-with-tracy,profile-with-puffin,profile-with-superluminal" 
 ```
 
  * puffin: Launches a basic app with imgui integration showing the puffin UI. This one should run everywhere
    that supports imgui.
  
 ```
-cargo run --package profiling --example puffin --features="profile-with-puffin"
+cargo run --example puffin --features="profile-with-puffin"
 ```
 
 ## License
@@ -215,7 +215,8 @@ Licensed under either of
 
 at your option.
 
-The examples directory contains [`mplus-1p-regular.ttf`](http://mplus-fonts.osdn.jp), available under its own license.
+The examples directory contains [`NotoSans-Medium.ttf`](https://www.google.com/get/noto/), available under SIL Open Font
+License (OFL).
 
 ### Contribution
 

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.9
+ * Bump tracy client version to 0.12 (tracy now uses the 0.7.6 protocol)
+ * Bump puffin to 0.4
+ * Update the puffin demo to use rafx
+ * Aesthetic changes to the puffin example
+
 ## 0.1.8
  * Bump tracy client version to 0.11 (tracy now uses the 0.7.5 protocol)
 

@@ -347,13 +347,13 @@ impl Renderer {
                     0,
                     &[RafxVertexBufferBinding {
                         buffer: &vertex_buffers[draw_list_index].get_raw().buffer,
-                        offset: 0,
+                        byte_offset: 0,
                     }],
                 )?;
 
                 command_buffer.cmd_bind_index_buffer(&RafxIndexBufferBinding {
                     buffer: &index_buffers[draw_list_index].get_raw().buffer,
-                    offset: 0,
+                    byte_offset: 0,
                     index_type: RafxIndexType::Uint16,
                 })?;
 
@@ -463,7 +463,7 @@ impl Drop for Renderer {
     }
 }
 
-rafx::nodes::declare_render_phase!(
+rafx::declare_render_phase!(
     OpaqueRenderPhase,
     OPAQUE_RENDER_PHASE_INDEX,
     opaque_render_phase_sort_submit_nodes

@@ -27,7 +27,7 @@ use renderer::Renderer;
 fn update() {
     profiling::scope!("update");
     some_function();
-    some_other_function(3);
+    some_other_function(5);
 }
 
 fn draw(
@@ -159,12 +159,12 @@ fn burn_time(micros: u128) {
 // This `profiling::function` attribute is equivalent to profiling::scope!(function_name)
 #[profiling::function]
 fn some_function() {
-    burn_time(200);
+    burn_time(10000);
 }
 
 fn some_other_function(iterations: usize) {
     profiling::scope!("some_other_function");
-    burn_time(200);
+    burn_time(400);
 
     {
         profiling::scope!("do iterations");
@@ -174,7 +174,7 @@ fn some_other_function(iterations: usize) {
                 format!("other data {}", i).as_str()
             );
             some_inner_function(i);
-            burn_time(200);
+            burn_time(400);
         }
     }
 }
