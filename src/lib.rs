@@ -83,6 +83,7 @@ macro_rules! scope {
 ///
 /// }
 /// ```
+#[cfg(feature = "procmacros")]
 pub use profiling_procmacros::function;
 
 /// Registers a thread with the profiler API(s). This is usually setting a name for the thread.
