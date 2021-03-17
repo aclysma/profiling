@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.10
+ * Build fix for when the default feature "procmacros" is disabled
+
 ## 0.1.9
  * Bump tracy client version to 0.12 (tracy now uses the 0.7.6 protocol)
  * Bump puffin to 0.4
