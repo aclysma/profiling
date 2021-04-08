@@ -29,7 +29,7 @@ below screenshots have a profiled application open with the puffin imgui window 
 
 ## Optick
 
-* https://optick.dev
+* https://github.com/bombomby/optick
 * The upstream crate only provides binaries for windows. However it could probably be made to work by building
 optick capture code and linking against it manually. The UI is windows only.
 
