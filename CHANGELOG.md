@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.0.0
+ * Republish 0.1.10 as 1.0.0
+
 ## 0.1.10
  * Build fix for when the default feature "procmacros" is disabled
 

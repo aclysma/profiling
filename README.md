@@ -57,8 +57,7 @@ This allows existing and new tracing-compatible handlers to work with profiling.
 ## Tracy
 
 * https://github.com/wolfpld/tracy
-* Cross-platform, but currently unstable on macOS. It could probably be fixed.
-(See https://github.com/wolfpld/tracy/issues/117)
+* Cross-platform (windows, macOS, linux)
 
 [![Tracy](screenshots/tracy-small.png)](screenshots/tracy.jpeg)
 
@@ -86,6 +85,9 @@ no dependencies or runtime code.
  
 This crate is intended to be **TINY**. It won't support every possible usage, just the basics. I'm open to adding
 more things but I plan to be very selective to maintain a slim size.
+
+When enabled, using a macro produces identical code as if you used the wrapped profiling API directly. So it is
+completely fine to directly use a profiler's API when this abstraction doesn't support something you want to do.
 
 ## Alternatives
 
