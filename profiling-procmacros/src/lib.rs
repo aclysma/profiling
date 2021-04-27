@@ -27,7 +27,7 @@ pub fn function(
     feature = "profile-with-optick",
     feature = "profile-with-superluminal",
     feature = "profile-with-tracing",
-    feature = "profile-with-tracy",
+    feature = "profile-with-tracy"
 )))]
 fn impl_block(
     body: &syn::Block,

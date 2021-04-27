@@ -51,6 +51,7 @@ profile-with-optick = ["optick", "profiling-procmacros/profile-with-optick"]
 profile-with-superluminal = ["superluminal-perf", "profiling-procmacros/profile-with-superluminal"]
 profile-with-tracing = ["tracing", "profiling-procmacros/profile-with-tracing"]
 profile-with-tracy = ["tracy-client", "profiling-procmacros/profile-with-tracy"]
+type-check = []
 procmacros = ["profiling-procmacros"]
 
 [[example]]
