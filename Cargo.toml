@@ -46,11 +46,11 @@ tracing-subscriber = { version = "0.2" }
 
 [features]
 default = ["procmacros"]
-profile-with-puffin = ["puffin"]
-profile-with-optick = ["optick"]
-profile-with-superluminal = ["superluminal-perf"]
-profile-with-tracing = ["tracing"]
-profile-with-tracy = ["tracy-client"]
+profile-with-puffin = ["puffin", "profiling-procmacros/profile-with-puffin"]
+profile-with-optick = ["optick", "profiling-procmacros/profile-with-optick"]
+profile-with-superluminal = ["superluminal-perf", "profiling-procmacros/profile-with-superluminal"]
+profile-with-tracing = ["tracing", "profiling-procmacros/profile-with-tracing"]
+profile-with-tracy = ["tracy-client", "profiling-procmacros/profile-with-tracy"]
 procmacros = ["profiling-procmacros"]
 
 [[example]]

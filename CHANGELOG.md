@@ -1,5 +1,8 @@
 # Changelog
 
+## Unpublished
+ * Rework feature flags so that downstream *libraries* no longer have to add feature flags per profiling backend.
+
 ## 1.0.0
  * Republish 0.1.10 as 1.0.0
 
