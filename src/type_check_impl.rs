@@ -3,11 +3,11 @@
 #[macro_export]
 macro_rules! scope {
     ($name:expr) => {
-        let _ :&str = $name;
+        let _: &str = $name;
     };
     ($name:expr, $data:expr) => {
-        let _ :&str = $name;
-        let _ :&str = $data;
+        let _: &str = $name;
+        let _: &str = $data;
     };
 }
 
@@ -15,7 +15,7 @@ macro_rules! scope {
 macro_rules! register_thread {
     () => {};
     ($name:expr) => {
-        let _ :&str = $name;
+        let _: &str = $name;
     };
 }
 
