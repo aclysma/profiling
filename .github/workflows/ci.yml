@@ -103,10 +103,42 @@ jobs:
       - name: Check the format
         run: cargo fmt --all -- --check
 
-      - name: Run clippy
+      - name: Run clippy (puffin)
         run: >
           cargo clippy
           --all-targets
-          --all-features
+          --features profile-with-puffin
+          --
+          -D warnings
+
+      - name: Run clippy (optick)
+        run: >
+          cargo clippy
+          --all-targets
+          --features profile-with-optick
+          --
+          -D warnings
+
+      - name: Run clippy (superluminal)
+        run: >
+          cargo clippy
+          --all-targets
+          --features profile-with-superluminal
+          --
+          -D warnings
+
+      - name: Run clippy (tracing)
+        run: >
+          cargo clippy
+          --all-targets
+          --features profile-with-tracing
+          --
+          -D warnings
+
+      - name: Run clippy (tracy
+        run: >
+          cargo clippy
+          --all-targets
+          --features profile-with-tracy
           --
           -D warnings
