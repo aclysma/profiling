@@ -32,8 +32,34 @@ jobs:
             target
           key: ${{ runner.os }}-cargo-check-test-${{ matrix.toolchain }}-${{ hashFiles('**/Cargo.lock') }}
 
-      - name: Build
-        run: cargo check --all-features --all-targets
+      - name: Check (puffin)
+        run: cargo build --all-targets --features=profile-with-puffin
+        env:
+          CARGO_INCREMENTAL: 0
+          RUSTFLAGS: "-C debuginfo=0 -D warnings"
+
+      - name: Check (superluminal)
+        run: cargo build --all-targets --features=profile-with-superluminal
+        if: ${{ runner.os == 'Windows' && matrix.toolchain == 'stable' }}
+        env:
+          CARGO_INCREMENTAL: 0
+          RUSTFLAGS: "-C debuginfo=0 -D warnings"
+
+      - name: Check (optick)
+        run: cargo build --all-targets --features=profile-with-optick
+        if: ${{ runner.os == 'Windows' && matrix.toolchain == 'stable' }}
+        env:
+          CARGO_INCREMENTAL: 0
+          RUSTFLAGS: "-C debuginfo=0 -D warnings"
+
+      - name: Check (tracing)
+        run: cargo build --all-targets --features=profile-with-tracing
+        env:
+          CARGO_INCREMENTAL: 0
+          RUSTFLAGS: "-C debuginfo=0 -D warnings"
+
+      - name: Check (tracy)
+        run: cargo build --all-targets --features=profile-with-tracy
         env:
           CARGO_INCREMENTAL: 0
           RUSTFLAGS: "-C debuginfo=0 -D warnings"
