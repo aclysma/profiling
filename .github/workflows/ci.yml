@@ -64,6 +64,12 @@ jobs:
           CARGO_INCREMENTAL: 0
           RUSTFLAGS: "-C debuginfo=0 -D warnings"
 
+      - name: Build (type-check)
+        run: cargo build --all-targets --features=type-check
+        env:
+          CARGO_INCREMENTAL: 0
+          RUSTFLAGS: "-C debuginfo=0 -D warnings"
+
       # Only do this on windows, some of the profilers only support windows
       - name: Run tests
         run: cargo test --workspace
@@ -139,5 +145,13 @@ jobs:
           cargo clippy
           --all-targets
           --features profile-with-tracy
+          --
+          -D warnings
+
+      - name: Run clippy (type-check)
+        run: >
+          cargo clippy
+          --all-targets
+          --features type-check
           --
           -D warnings

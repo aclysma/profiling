@@ -52,12 +52,18 @@ mod tracy_impl;
 #[cfg(feature = "profile-with-tracy")]
 pub use tracy_impl::*;
 
+#[cfg(feature = "type-check")]
+mod type_check_impl;
+#[cfg(feature = "type-check")]
+pub use type_check_impl::*;
+
 #[cfg(not(any(
     feature = "profile-with-puffin",
     feature = "profile-with-optick",
     feature = "profile-with-superluminal",
     feature = "profile-with-tracing",
     feature = "profile-with-tracy",
+    feature = "type-check"
 )))]
 mod empty_impl;
 
@@ -67,5 +73,6 @@ mod empty_impl;
     feature = "profile-with-superluminal",
     feature = "profile-with-tracing",
     feature = "profile-with-tracy",
+    feature = "type-check"
 )))]
 pub use empty_impl::*;
