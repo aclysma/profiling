@@ -89,7 +89,7 @@ fn impl_block(
 ) -> syn::Block {
     parse_quote! {
         {
-            let _fn_span = profiling::tracing::span!(tracing::Level::INFO, #instrumented_function_name);
+            let _fn_span = profiling::tracing::span!($crate::tracing::Level::INFO, #instrumented_function_name);
             let _fn_span_entered = _fn_span.enter();
 
             #body
