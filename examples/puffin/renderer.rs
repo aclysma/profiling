@@ -445,7 +445,7 @@ impl Renderer {
         let fixed_function_state = Arc::new(fixed_function_state);
 
         let material_pass = MaterialPass::new(
-            &resource_context,
+            resource_context,
             fixed_function_state,
             vec![vertex_shader_module, fragment_shader_module],
             &[&vertex_entry_point, &fragment_entry_point],
