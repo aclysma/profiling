@@ -1,7 +1,10 @@
 # Changelog
 
+## 1.0.4
+ * Update puffin to 0.10
+
 ## 1.0.3
- * Update puffin to 0.8 and puffin-imgui to 0.8
+ * Update puffin to 0.6 and puffin-imgui to 0.8
 
 ## 1.0.2
  * Fix tracing backend failing to compile when tracing crate is not a dependency in the downstream crate
