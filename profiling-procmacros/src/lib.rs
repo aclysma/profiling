@@ -105,7 +105,7 @@ fn impl_block(
     parse_quote! {
         {
             // Note: callstack_depth is 0 since this has significant overhead
-            let _tracy_span = profiling::tracy_client::Span::new(#instrumented_function_name, "", file!(), line!(), 0);
+            let _tracy_span = profiling::tracy_client::span!(#instrumented_function_name, 0);
 
             #body
         }

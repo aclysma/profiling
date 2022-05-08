@@ -20,6 +20,10 @@ fn main() {
     feature = "profile-with-tracy",
 ))]
 fn main() {
+    // Starting the Tracy client is necessary before any invoking any of its APIs
+    #[cfg(feature = "profile-with-tracy")]
+    tracy_client::Client::start();
+
     // Good to call this on any threads that are created to get clearer profiling results
     profiling::register_thread!("Main Thread");
 
