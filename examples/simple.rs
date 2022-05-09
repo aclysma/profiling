@@ -44,6 +44,14 @@ fn main() {
 
     println!("Starting loop, profiler can now be attached");
 
+    // Test that using this macro multiple times in the same scope level will compile.
+    {
+        profiling::scope!("Outer scope");
+        burn_time(5);
+        profiling::scope!("Inner scope");
+        burn_time(5);
+    }
+
     loop {
         // Generate some profiling info
         profiling::scope!("Main Thread");

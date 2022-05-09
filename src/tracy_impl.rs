@@ -1,18 +1,22 @@
 #[macro_export]
 macro_rules! scope {
     ($name:expr) => {
-        struct S;
-        let type_name = core::any::type_name::<S>();
-        let function_name = &type_name[..type_name.len() - 3];
+        let function_name = {
+            struct S;
+            let type_name = core::any::type_name::<S>();
+            &type_name[..type_name.len() - 3]
+        };
         let _tracy_span = $crate::tracy_client::Client::running()
             .expect("scope! without a running tracy_client::Client")
             // Note: callstack_depth is 0 since this has significant overhead
             .span_alloc($name, function_name, file!(), line!(), 0);
     };
     ($name:expr, $data:expr) => {
-        struct S;
-        let type_name = core::any::type_name::<S>();
-        let function_name = &type_name[..type_name.len() - 3];
+        let function_name = {
+            struct S;
+            let type_name = core::any::type_name::<S>();
+            &type_name[..type_name.len() - 3]
+        };
         let _tracy_span = $crate::tracy_client::Client::running()
             .expect("scope! without a running tracy_client::Client")
             .span_alloc($name, function_name, file!(), line!(), 0);
