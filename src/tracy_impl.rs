@@ -1,5 +1,15 @@
 #[macro_export]
 macro_rules! scope {
+    // Note: literal patterns provided as an optimization since they can skip an allocation.
+    ($name:literal) => {
+        // Note: callstack_depth is 0 since this has significant overhead
+        let _tracy_span = $crate::tracy_client::span!($name, 0);
+    };
+    ($name:literal, $data:expr) => {
+        // Note: callstack_depth is 0 since this has significant overhead
+        let _tracy_span = $crate::tracy_client::span!($name, 0);
+        _tracy_span.emit_text($data);
+    };
     ($name:expr) => {
         let function_name = {
             struct S;
@@ -19,6 +29,7 @@ macro_rules! scope {
         };
         let _tracy_span = $crate::tracy_client::Client::running()
             .expect("scope! without a running tracy_client::Client")
+            // Note: callstack_depth is 0 since this has significant overhead
             .span_alloc($name, function_name, file!(), line!(), 0);
         _tracy_span.emit_text($data);
     };

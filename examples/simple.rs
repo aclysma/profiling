@@ -52,6 +52,21 @@ fn main() {
         burn_time(5);
     }
 
+    // Test that non-literals can be used
+    //
+    // Does not work with these two backends:
+    #[cfg(not(any(feature = "profile-with-puffin", feature = "profile-with-tracing")))]
+    {
+        let scope_name = String::from("Some scope name");
+        profiling::scope!(&scope_name);
+        burn_time(5);
+
+        let another_scope_name = String::from("Another scope name");
+        let some_data = String::from("Some data");
+        profiling::scope!(&another_scope_name, &some_data);
+        burn_time(5);
+    }
+
     loop {
         // Generate some profiling info
         profiling::scope!("Main Thread");
