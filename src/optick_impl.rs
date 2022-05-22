@@ -1,13 +1,13 @@
 #[macro_export]
 macro_rules! scope {
-    ($name:expr) => {{
+    ($name:expr) => {
         $crate::optick::event!($name);
-    }};
+    };
     // NOTE: I've not been able to get attached data to work with optick
-    ($name:expr, $data:expr) => {{
+    ($name:expr, $data:expr) => {
         $crate::optick::event!($name);
         $crate::optick::tag!("tag", $data);
-    }};
+    };
 }
 
 #[macro_export]

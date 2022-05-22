@@ -45,6 +45,9 @@ fn main() {
     println!("Starting loop, profiler can now be attached");
 
     // Test that using this macro multiple times in the same scope level will compile.
+    //
+    // optick backend currently won't work with multiple `profiling::scope!` in the same scope
+    #[cfg(not(any(feature = "profile-with-optick")))]
     {
         profiling::scope!("Outer scope");
         burn_time(5);
@@ -56,6 +59,8 @@ fn main() {
     //
     // Does not work with these two backends:
     #[cfg(not(any(feature = "profile-with-puffin", feature = "profile-with-tracing")))]
+    // optick backend currently won't work with multiple `profiling::scope!` in the same scope
+    #[cfg(not(any(feature = "profile-with-optick")))]
     {
         let scope_name = String::from("Some scope name");
         profiling::scope!(&scope_name);
