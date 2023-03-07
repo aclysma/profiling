@@ -19,7 +19,7 @@ macro_rules! scope {
         let _tracy_span = $crate::tracy_client::Client::running()
             .expect("scope! without a running tracy_client::Client")
             // Note: callstack_depth is 0 since this has significant overhead
-            .span_alloc($name, function_name, file!(), line!(), 0);
+            .span_alloc(Some($name), function_name, file!(), line!(), 0);
     };
     ($name:expr, $data:expr) => {
         let function_name = {
@@ -30,7 +30,7 @@ macro_rules! scope {
         let _tracy_span = $crate::tracy_client::Client::running()
             .expect("scope! without a running tracy_client::Client")
             // Note: callstack_depth is 0 since this has significant overhead
-            .span_alloc($name, function_name, file!(), line!(), 0);
+            .span_alloc(Some($name), function_name, file!(), line!(), 0);
         _tracy_span.emit_text($data);
     };
 }
