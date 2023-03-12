@@ -3,6 +3,8 @@
 // exact same interface. Only one may be active at a time.
 //
 
+#![cfg_attr(fetaure = "no-std", no_std)]
+
 /// Proc macro for creating a scope around the function, using the name of the function for the
 /// scope's name
 ///
