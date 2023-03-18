@@ -3,6 +3,10 @@
 // exact same interface. Only one may be active at a time.
 //
 
+// This library itself does not require std, but if any features are enabled, the upstream crate
+// likely will bring in std.
+#![no_std]
+
 /// Proc macro for creating a scope around the function, using the name of the function for the
 /// scope's name
 ///

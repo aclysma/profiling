@@ -339,7 +339,7 @@ impl Renderer {
                     ),
                     &IMGUI_VERTEX_LAYOUT,
                 )?;
-            command_buffer.cmd_bind_pipeline(&*imgui_pipeline.get_raw().pipeline)?;
+            command_buffer.cmd_bind_pipeline(&imgui_pipeline.get_raw().pipeline)?;
             descriptor_set.bind(command_buffer)?;
 
             for (draw_list_index, draw_list) in draw_data.draw_lists().enumerate() {
