@@ -1,7 +1,11 @@
 # Changelog
 
+## 1.0.8
+ * Update tracy-client to 0.15.1
+ * Add no_std (std likely is still required for any backends to be turned on)
+
 ## 1.0.7
-* Update tracy-client to 0.14.1
+ * Update tracy-client to 0.14.1
 
 ## 1.0.6
  * Update tracy-client to 0.13
