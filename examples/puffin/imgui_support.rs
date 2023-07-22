@@ -14,7 +14,7 @@ struct Inner {
 
     // Pointer to the current UI. Assuming no direct calls to C imgui interface, this pointer is
     // valid as long as context is not destroyed, and a frame has started and not ended
-    ui: Option<*mut imgui::Ui<'static>>,
+    ui: Option<*mut imgui::Ui>,
 
     // Handles the integration between imgui and winit
     platform: imgui_winit_support::WinitPlatform,
@@ -156,17 +156,6 @@ impl ImguiManager {
         unsafe { &*inner.font_atlas_texture }
     }
 
-    fn take_ui(inner: &mut Inner) -> Option<Box<imgui::Ui<'static>>> {
-        let mut ui = None;
-        std::mem::swap(&mut inner.ui, &mut ui);
-
-        if let Some(ui) = ui {
-            return Some(unsafe { Box::from_raw(ui) });
-        }
-
-        None
-    }
-
     // Start a new frame
     pub fn begin_frame(
         &self,
@@ -176,16 +165,21 @@ impl ImguiManager {
         let inner = &mut *inner_mutex_guard;
 
         // Drop the old Ui if it exists
-        if inner.ui.is_some() {
+        if let Some(ui) = inner.ui {
             log::warn!("a frame is already in progress, starting a new one");
-            ImguiManager::take_ui(inner);
+            unsafe {
+                (*ui).end_frame_early();
+            }
+
+            inner.ui = None;
         }
 
         inner
             .platform
             .prepare_frame(inner.context.io_mut(), window)
             .unwrap();
-        let ui = Box::new(inner.context.frame());
+
+        let ui = inner.context.new_frame();
 
         inner.want_capture_keyboard = ui.io().want_capture_keyboard;
         inner.want_capture_mouse = ui.io().want_capture_mouse;
@@ -193,9 +187,7 @@ impl ImguiManager {
         inner.want_text_input = ui.io().want_text_input;
 
         // Remove the lifetime of the Ui
-        let ui_ptr: *mut imgui::Ui = Box::into_raw(ui);
-        #[allow(clippy::transmute_ptr_to_ptr)]
-        let ui_ptr: *mut imgui::Ui<'static> = unsafe { std::mem::transmute(ui_ptr) };
+        let ui_ptr = ui as *mut imgui::Ui;
 
         // Store it as a raw pointer
         inner.ui = Some(ui_ptr);
@@ -220,10 +212,13 @@ impl ImguiManager {
             return;
         }
 
-        let ui = ImguiManager::take_ui(&mut inner);
-        if let Some(ui) = ui {
-            inner.platform.prepare_render(&ui, window);
-            ui.render();
+        if let Some(ui) = inner.ui {
+            unsafe {
+                inner.platform.prepare_render(&*ui, window);
+            }
+
+            inner.context.render();
+            inner.ui = None;
         } else {
             log::warn!("ui did not exist");
         }
