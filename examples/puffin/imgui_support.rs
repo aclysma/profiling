@@ -36,11 +36,11 @@ impl Drop for Inner {
 
         // Drop the UI call if it exists
         if let Some(ui) = ui {
-            let _ui = unsafe { Box::from_raw(ui) };
+            unsafe { drop(Box::from_raw(ui)) };
         }
 
         // Drop the font atlas
-        unsafe { Box::from_raw(self.font_atlas_texture) };
+        unsafe { drop(Box::from_raw(self.font_atlas_texture)) };
     }
 }
 
