@@ -54,7 +54,7 @@ fn main() {
     puffin::set_scopes_on(true);
 
     // Create the winit event loop
-    let event_loop = winit::event_loop::EventLoop::<()>::with_user_event();
+    let event_loop = winit::event_loop::EventLoopBuilder::<()>::with_user_event().build();
 
     // Set up the coordinate system to be fixed at 900x600, and use this as the default window size
     // This means the drawing code can be written as though the window is always 900x600. The

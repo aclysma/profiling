@@ -59,7 +59,7 @@ impl ImguiManager {
     ) -> Self {
         // Ensure font atlas is built and cache a pointer to it
         let font_atlas_texture = {
-            let mut fonts = imgui_context.fonts();
+            let fonts = imgui_context.fonts();
             let font_atlas_texture = Box::new(fonts.build_rgba32_texture());
             log::info!("Building ImGui font atlas");
 
