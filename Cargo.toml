@@ -6,7 +6,7 @@ members = [
 
 [package]
 name = "profiling"
-version = "1.0.8"
+version = "1.0.9"
 authors = ["Philip Degarmo <aclysma@gmail.com>"]
 edition = "2018"
 description = "This crate provides a very thin abstraction over other profiler crates."
@@ -26,7 +26,7 @@ optick = { version = "1.3", optional = true }
 tracing = { version = "0.1", optional = true }
 tracy-client = { version = "0.15.1", optional = true }
 superluminal-perf = { version = "0.1", optional = true }
-profiling-procmacros = { version = "1.0.8", path = "profiling-procmacros", optional = true }
+profiling-procmacros = { version = "1.0.9", path = "profiling-procmacros", optional = true }
 
 [dev-dependencies]
 # Needed for the puffin example

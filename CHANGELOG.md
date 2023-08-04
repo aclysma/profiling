@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.9
+ * Update to newer version of puffin, updates to several other dev-dependencies
+ * Update to syn 2.0
+
 ## 1.0.8
  * Update tracy-client to 0.15.1
  * Add no_std (std likely is still required for any backends to be turned on)
