@@ -22,6 +22,14 @@ pub fn function(
     .into()
 }
 
+#[proc_macro_attribute]
+pub fn skip(
+    _attr: TokenStream,
+    item: TokenStream,
+) -> TokenStream {
+    item
+}
+
 #[cfg(not(any(
     feature = "profile-with-puffin",
     feature = "profile-with-optick",
