@@ -30,6 +30,38 @@ pub fn skip(
     item
 }
 
+#[proc_macro_attribute]
+pub fn impl(_attr: TokenStream, item: TokenStream) -> TokenStream {
+    let mut content = parse_macro_input!(item as ItemImpl);
+    'func_loop: for block in &mut content.items {
+        match block {
+            ImplItem::Fn(ref mut func) => {
+                for func_attr in &func.attrs {
+                    match func_attr.meta {
+                        syn::Meta::Path(ref func_path) => {
+                            let path_seg = func_path.segments.last().unwrap();
+                            if path_seg.ident.to_string() == "skip".to_string() {
+                                continue 'func_loop;
+                            }
+                        }
+                        _ => {}
+                    }
+                }
+                let prev_block = &func.block;
+                let func_name = func.sig.ident.to_string();
+                func.block = impl_block(prev_block, &func_name);
+            }
+            _ => {}
+        }
+    }
+    // println!("item: \"{:?}\"", content.attrs.);
+
+    (quote!(
+        #content
+    ))
+    .into()
+}
+
 #[cfg(not(any(
     feature = "profile-with-puffin",
     feature = "profile-with-optick",
