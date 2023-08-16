@@ -1,7 +1,7 @@
 extern crate proc_macro;
 use proc_macro::TokenStream;
 use quote::quote;
-use syn::{parse_macro_input, parse_quote, ItemFn};
+use syn::{parse_macro_input, parse_quote, ImplItem, ItemFn, ItemImpl};
 
 #[proc_macro_attribute]
 pub fn function(
@@ -31,7 +31,10 @@ pub fn skip(
 }
 
 #[proc_macro_attribute]
-pub fn impl(_attr: TokenStream, item: TokenStream) -> TokenStream {
+pub fn auto_impl(
+    _attr: TokenStream,
+    item: TokenStream,
+) -> TokenStream {
     let mut content = parse_macro_input!(item as ItemImpl);
     'func_loop: for block in &mut content.items {
         match block {
@@ -54,7 +57,6 @@ pub fn impl(_attr: TokenStream, item: TokenStream) -> TokenStream {
             _ => {}
         }
     }
-    // println!("item: \"{:?}\"", content.attrs.);
 
     (quote!(
         #content
