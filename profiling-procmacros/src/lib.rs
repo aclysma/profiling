@@ -65,7 +65,7 @@ pub fn auto_impl(
         for func_attr in &func.attrs {
             if let syn::Meta::Path(ref func_attr_info) = func_attr.meta {
                 let attr_seg = func_attr_info.segments.last().unwrap();
-                if attr_seg.ident.to_string() == "skip".to_string() {
+                if attr_seg.ident == *"skip" {
                     continue 'func_loop;
                 }
             }
