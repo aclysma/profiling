@@ -11,6 +11,20 @@ fn main() {
     panic!("No profiler feature flags were enabled. Since this is an example, this is probably a mistake.");
 }
 
+struct Foo;
+
+#[profiling::auto_impl]
+impl Foo {
+    pub fn with_auto_impl() {
+        some_other_function(5);
+    }
+
+    #[profiling::skip]
+    pub fn without_auto_impl() {
+        some_other_function(5);
+    }
+}
+
 // Just check that one of these features was enabled because otherwise, nothing interesting will happen
 #[cfg(any(
     feature = "profile-with-optick",
@@ -77,6 +91,9 @@ fn main() {
         profiling::scope!("Main Thread");
         some_function();
         some_other_function(10);
+
+        Foo::with_auto_impl();
+        Foo::without_auto_impl();
 
         println!("frame complete");
 
