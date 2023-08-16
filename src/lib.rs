@@ -7,6 +7,8 @@
 // likely will bring in std.
 #![no_std]
 
+#[cfg(feature = "procmacros")]
+pub use profiling_procmacros::auto_impl;
 /// Proc macro for creating a scope around the function, using the name of the function for the
 /// scope's name
 ///
@@ -20,6 +22,8 @@
 /// ```
 #[cfg(feature = "procmacros")]
 pub use profiling_procmacros::function;
+#[cfg(feature = "procmacros")]
+pub use profiling_procmacros::skip;
 
 #[cfg(feature = "profile-with-puffin")]
 pub use puffin;
