@@ -13,14 +13,14 @@ fn main() {
 
 struct Foo;
 
-#[profiling::auto_impl]
+#[profiling::all_functions]
 impl Foo {
-    pub fn with_auto_impl() {
+    pub fn function1() {
         some_other_function(5);
     }
 
     #[profiling::skip]
-    pub fn without_auto_impl() {
+    pub fn function2() {
         some_other_function(5);
     }
 }
@@ -92,8 +92,8 @@ fn main() {
         some_function();
         some_other_function(10);
 
-        Foo::with_auto_impl();
-        Foo::without_auto_impl();
+        Foo::function1();
+        Foo::function2();
 
         println!("frame complete");
 

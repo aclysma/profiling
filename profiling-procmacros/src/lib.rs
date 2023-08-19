@@ -31,7 +31,7 @@ pub fn skip(
 }
 
 #[proc_macro_attribute]
-pub fn auto_impl(
+pub fn all_functions(
     _attr: TokenStream,
     item: TokenStream,
 ) -> TokenStream {

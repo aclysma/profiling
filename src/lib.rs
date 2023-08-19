@@ -13,7 +13,7 @@
 ///     // some data...
 /// }
 ///
-/// #[profiling::auto_impl]
+/// #[profiling::all_functions]
 /// impl Foo {
 ///     pub fn do_something(&self) {
 ///         // some code...    
@@ -45,7 +45,7 @@
 /// }
 /// ```
 #[cfg(feature = "procmacros")]
-pub use profiling_procmacros::auto_impl;
+pub use profiling_procmacros::all_functions;
 /// Proc macro for creating a scope around the function, using the name of the function for the
 /// scope's name
 ///
@@ -65,7 +65,7 @@ pub use profiling_procmacros::function;
 ///     // some data...
 /// }
 ///
-/// #[profiling::auto_impl]
+/// #[profiling::all_functions]
 /// impl Foo {
 ///     pub fn do_something(&self) {
 ///         // some code...    
