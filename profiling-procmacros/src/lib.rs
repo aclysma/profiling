@@ -1,6 +1,6 @@
 extern crate proc_macro;
 use proc_macro::TokenStream;
-use quote::quote;
+use quote::{quote, ToTokens};
 use syn::{parse_macro_input, parse_quote, ImplItem, ItemFn, ItemImpl};
 
 #[proc_macro_attribute]
@@ -36,6 +36,8 @@ pub fn auto_impl(
     item: TokenStream,
 ) -> TokenStream {
     let mut content = parse_macro_input!(item as ItemImpl);
+    let struct_name = content.self_ty.to_token_stream().to_string();
+
     'func_loop: for block in &mut content.items {
         // Currently, we only care about the function impl part.
         // In the future, expand the code to following if we are interested in other parts
@@ -71,8 +73,8 @@ pub fn auto_impl(
             }
         }
         let prev_block = &func.block;
-        let func_name = func.sig.ident.to_string();
-        func.block = impl_block(prev_block, &func_name);
+        let calling_info = format!("{}: {}", struct_name, func.sig.ident);
+        func.block = impl_block(prev_block, &calling_info);
     }
 
     (quote!(
