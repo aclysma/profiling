@@ -69,10 +69,10 @@ Currently, there's just six macros:
      * tag: optional extra data
  * `#[profiling::function]`
      * procmacro placed on a function to quickly wrap it in a scope using the function name
- * `#[profiling::auto_impl]`
+ * `#[profiling::all_functions]`
      * procmacro placed on a struct impl block to apply `#[profiling::function]` on each function under that struct impl block
  * `#[profiling::skip]`
-     * use with `#[profiling::auto_impl]`, placed this procmacro on a function to avoid the auto-impl action
+     * use with `#[profiling::all_functions]`, placed this procmacro on a function to avoid the  action that `#[profiling::all_functions]` apply
  * `profiling::register_thread!([name: &str])`
      * name: optional, defaults to `std::thread::current().name`, or `.id` if it's unnamed
  * `profiling::finish_frame!()`
