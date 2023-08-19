@@ -1,7 +1,7 @@
 # Changelog
 
 ## 1.0.9
- * Add `profiling::auto_impl`
+ * Add `profiling::all_functions`
  * Add `profiling::skip`
 
 ## 1.0.8
