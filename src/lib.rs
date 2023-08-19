@@ -15,11 +15,11 @@
 ///
 /// #[profiling::auto_impl]
 /// impl Foo {
-///     pub fn new() -> Self {
+///     pub fn do_something(&self) {
 ///         // some code...    
 ///     }
 ///
-///     pub fn do_something(&self) {
+///     pub fn do_otherthing(&self) {
 ///         // some code...
 ///     }
 /// }
@@ -34,12 +34,12 @@
 ///
 /// impl Foo {
 ///     #[profiling::function]
-///     pub fn new() -> Self {
+///     pub fn do_something(&self) {
 ///         // some code...    
 ///     }
 ///
 ///     #[profiling::function]
-///     pub fn do_something(&self) {
+///     pub fn do_otherthing(&self) {
 ///         // some code...
 ///     }
 /// }
@@ -67,12 +67,12 @@ pub use profiling_procmacros::function;
 ///
 /// #[profiling::auto_impl]
 /// impl Foo {
-///     pub fn new() -> Self {
+///     pub fn do_something(&self) {
 ///         // some code...    
 ///     }
 ///
 ///     #[profiling::skip]
-///     pub fn do_something(&self) {
+///     pub fn do_otherthing(&self) {
 ///         // some code...
 ///     }
 /// }
@@ -87,11 +87,11 @@ pub use profiling_procmacros::function;
 ///
 /// impl Foo {
 ///     #[profiling::function]
-///     pub fn new() -> Self {
+///     pub fn do_something(&self) {
 ///         // some code...    
 ///     }
 ///
-///     pub fn do_something(&self) {
+///     pub fn do_otherthing(&self) {
 ///         // some code...
 ///     }
 /// }
