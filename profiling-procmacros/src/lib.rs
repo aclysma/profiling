@@ -65,11 +65,15 @@ pub fn all_functions(
         };
 
         for func_attr in &func.attrs {
-            if let syn::Meta::Path(ref func_attr_info) = func_attr.meta {
-                let attr_seg = func_attr_info.segments.last().unwrap();
-                if attr_seg.ident == *"skip" {
-                    continue 'func_loop;
-                }
+            let func_attr_info = func_attr.path();
+            if func_attr_info.segments.is_empty() {
+                unreachable!();
+            }
+            if func_attr_info.segments.first().unwrap().ident != "profiling" {
+                continue;
+            }
+            if func_attr_info.segments.last().unwrap().ident == "skip" {
+                continue 'func_loop;
             }
         }
         let prev_block = &func.block;
