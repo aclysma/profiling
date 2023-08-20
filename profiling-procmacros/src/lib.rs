@@ -67,7 +67,7 @@ pub fn all_functions(
         for func_attr in &func.attrs {
             let func_attr_info = func_attr.path();
             if func_attr_info.segments.is_empty() {
-                unreachable!();
+                continue;
             }
             if func_attr_info.segments.first().unwrap().ident != "profiling" {
                 continue;
