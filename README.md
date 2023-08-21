@@ -63,12 +63,16 @@ This allows existing and new tracing-compatible handlers to work with profiling.
 
 ## Usage
 
-Currently, there's just four macros:
+Currently, there's just six macros:
  * `profiling::scope!(name: &str, [tag: &str])`
      * name: scopes will appear in the profiler under this name
      * tag: optional extra data
  * `#[profiling::function]`
      * procmacro placed on a function to quickly wrap it in a scope using the function name
+ * `#[profiling::all_functions]`
+     * procmacro placed on a struct impl block to apply `#[profiling::function]` on each function under that struct impl block
+ * `#[profiling::skip]`
+     * use with `#[profiling::all_functions]`, placed this procmacro on a function to avoid the  action that `#[profiling::all_functions]` apply
  * `profiling::register_thread!([name: &str])`
      * name: optional, defaults to `std::thread::current().name`, or `.id` if it's unnamed
  * `profiling::finish_frame!()`

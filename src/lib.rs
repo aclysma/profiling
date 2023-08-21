@@ -7,6 +7,45 @@
 // likely will bring in std.
 #![no_std]
 
+/// Proc macro for creating a scope around each function under struct impl block
+/// ```
+/// pub struct Foo {
+///     // some data...
+/// }
+///
+/// #[profiling::all_functions]
+/// impl Foo {
+///     pub fn do_something(&self) {
+///         // some code...    
+///     }
+///
+///     pub fn do_otherthing(&self) {
+///         // some code...
+///     }
+/// }
+/// ```
+///
+/// The following will generate the same code
+///
+/// ```
+/// pub struct Foo {
+///     // some data...
+/// }
+///
+/// impl Foo {
+///     #[profiling::function]
+///     pub fn do_something(&self) {
+///         // some code...    
+///     }
+///
+///     #[profiling::function]
+///     pub fn do_otherthing(&self) {
+///         // some code...
+///     }
+/// }
+/// ```
+#[cfg(feature = "procmacros")]
+pub use profiling_procmacros::all_functions;
 /// Proc macro for creating a scope around the function, using the name of the function for the
 /// scope's name
 ///
@@ -20,6 +59,45 @@
 /// ```
 #[cfg(feature = "procmacros")]
 pub use profiling_procmacros::function;
+/// Proc macro to skip the auto_impl for the function
+/// ```
+/// pub struct Foo {
+///     // some data...
+/// }
+///
+/// #[profiling::all_functions]
+/// impl Foo {
+///     pub fn do_something(&self) {
+///         // some code...    
+///     }
+///
+///     #[profiling::skip]
+///     pub fn do_otherthing(&self) {
+///         // some code...
+///     }
+/// }
+/// ```
+///
+/// The following will generate the same code
+///
+/// ```
+/// pub struct Foo {
+///     // some data...
+/// }
+///
+/// impl Foo {
+///     #[profiling::function]
+///     pub fn do_something(&self) {
+///         // some code...    
+///     }
+///
+///     pub fn do_otherthing(&self) {
+///         // some code...
+///     }
+/// }
+/// ```
+#[cfg(feature = "procmacros")]
+pub use profiling_procmacros::skip;
 
 #[cfg(feature = "profile-with-puffin")]
 pub use puffin;

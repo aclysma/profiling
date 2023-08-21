@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+* Add `profiling::all_functions`
+* Add `profiling::skip`
+
 ## 1.0.9
  * Update to newer version of puffin, updates to several other dev-dependencies
  * Update to syn 2.0
