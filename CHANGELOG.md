@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.0.10
 * Add `profiling::all_functions`
 * Add `profiling::skip`
 
