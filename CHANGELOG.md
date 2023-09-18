@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.0.11
 * Update tracy-client to 0.16.2
 
 ## 1.0.10
