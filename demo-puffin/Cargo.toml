@@ -1,0 +1,31 @@
+[workspace]
+# This is not part of the workspace in the profiling git repository because it causes the puffin feature to be enabled
+# in examples, which we don't want.
+
+[package]
+name = "demo-puffin"
+version = "0.1.0"
+authors = ["Philip Degarmo <aclysma@gmail.com>"]
+edition = "2018"
+description = "Example using puffin and the profiling crate"
+license = "MIT OR Apache-2.0"
+readme = "../README.md"
+repository = "https://github.com/aclysma/profiling"
+homepage = "https://github.com/aclysma/profiling"
+keywords = ["performance", "profiling"]
+categories = ["development-tools::profiling"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+profiling = { path = "../profiling", features = ["profile-with-puffin"] }
+
+puffin = "0.18.0"
+puffin_egui = "0.24.0"
+egui = "0.24.0"
+# wgpu also works fine here
+eframe = { version = "0.24.0", default-features = false, features = ["glow"] }
+
+log = "0.4"
+env_logger = "0.6"
+

@@ -75,7 +75,9 @@ allow = [
     "BSD-3-Clause",
     "Zlib",
     "Unicode-DFS-2016",
-    "BSD-2-Clause"
+    "BSD-2-Clause",
+    "BSL-1.0",
+    "ISC"
     #"Apache-2.0 WITH LLVM-exception",
 ]
 # List of explictly disallowed licenses
@@ -106,11 +108,7 @@ confidence-threshold = 1.0
 # Allow 1 or more licenses on a per-crate basis, so that particular licenses
 # aren't accepted for every possible crate as with the normal allow list
 exceptions = [
-    # used by ash in an example
-    { allow = ["ISC"], name = "libloading", version = "*" },
-    # used indirectly by winit. Allowed for now because this is a dev-dependency only. In general this library will not
-    # accept upstream copy-left licenses
-    { allow = ["MPL-2.0"], name = "dwrote", version = "*" }
+    { allow = ["OFL-1.1", "LicenseRef-UFL-1.0"], name = "epaint", version = "*" },
 ]
 
 # Some crates don't have (easily) machine readable licensing information,
