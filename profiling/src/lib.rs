@@ -112,6 +112,7 @@ pub use optick;
 #[cfg(feature = "profile-with-optick")]
 mod optick_impl;
 #[cfg(feature = "profile-with-optick")]
+#[allow(unused_imports)]
 pub use optick_impl::*;
 
 #[cfg(feature = "profile-with-superluminal")]
@@ -119,6 +120,7 @@ pub use superluminal_perf;
 #[cfg(feature = "profile-with-superluminal")]
 mod superluminal_impl;
 #[cfg(feature = "profile-with-superluminal")]
+#[allow(unused_imports)]
 pub use superluminal_impl::*;
 
 #[cfg(feature = "profile-with-tracing")]
@@ -126,6 +128,7 @@ pub use tracing;
 #[cfg(feature = "profile-with-tracing")]
 mod tracing_impl;
 #[cfg(feature = "profile-with-tracing")]
+#[allow(unused_imports)]
 pub use tracing_impl::*;
 
 #[cfg(feature = "profile-with-tracy")]
@@ -133,11 +136,13 @@ pub use tracy_client;
 #[cfg(feature = "profile-with-tracy")]
 mod tracy_impl;
 #[cfg(feature = "profile-with-tracy")]
+#[allow(unused_imports)]
 pub use tracy_impl::*;
 
 #[cfg(feature = "type-check")]
 mod type_check_impl;
 #[cfg(feature = "type-check")]
+#[allow(unused_imports)]
 pub use type_check_impl::*;
 
 #[cfg(not(any(
@@ -158,4 +163,5 @@ mod empty_impl;
     feature = "profile-with-tracy",
     feature = "type-check"
 )))]
+#[allow(unused_imports)]
 pub use empty_impl::*;
