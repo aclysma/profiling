@@ -101,6 +101,11 @@ jobs:
         with:
           command: check ${{ matrix.checks }}
 
+      - uses: EmbarkStudios/cargo-deny-action@v1
+        with:
+          arguments: --manifest-path=demo-puffin/Cargo.toml
+          command: check ${{ matrix.checks }}
+
   clean:
     runs-on: ubuntu-22.04
     steps:
