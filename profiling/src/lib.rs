@@ -104,6 +104,7 @@ pub use puffin;
 #[cfg(feature = "profile-with-puffin")]
 mod puffin_impl;
 #[cfg(feature = "profile-with-puffin")]
+#[allow(unused_imports)]
 pub use puffin_impl::*;
 
 #[cfg(feature = "profile-with-optick")]
