@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+* Update to puffin 0.18
+* Puffin example moved to a demo project, rewritten to use egui/eframe
+
 ## 1.0.11
 * Update tracy-client to 0.16.2
 

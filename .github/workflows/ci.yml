@@ -33,39 +33,45 @@ jobs:
           key: ${{ runner.os }}-cargo-check-test-${{ matrix.toolchain }}-${{ hashFiles('**/Cargo.lock') }}
 
       - name: Build (puffin)
-        run: cargo build --all-targets --features=profile-with-puffin
+        run: cargo build --package=profiling --features=profile-with-puffin
         env:
           CARGO_INCREMENTAL: 0
           RUSTFLAGS: "-C debuginfo=0 -D warnings"
 
       - name: Build (superluminal)
-        run: cargo build --all-targets --features=profile-with-superluminal
+        run: cargo build --package=profiling --features=profile-with-superluminal
         if: ${{ runner.os == 'Windows' && matrix.toolchain == 'stable' }}
         env:
           CARGO_INCREMENTAL: 0
           RUSTFLAGS: "-C debuginfo=0 -D warnings"
 
       - name: Build (optick)
-        run: cargo build --all-targets --features=profile-with-optick
+        run: cargo build --package=profiling --features=profile-with-optick
         if: ${{ runner.os == 'Windows' && matrix.toolchain == 'stable' }}
         env:
           CARGO_INCREMENTAL: 0
           RUSTFLAGS: "-C debuginfo=0 -D warnings"
 
       - name: Build (tracing)
-        run: cargo build --all-targets --features=profile-with-tracing
+        run: cargo build --package=profiling --features=profile-with-tracing
         env:
           CARGO_INCREMENTAL: 0
           RUSTFLAGS: "-C debuginfo=0 -D warnings"
 
       - name: Build (tracy)
-        run: cargo build --all-targets --features=profile-with-tracy
+        run: cargo build --package=profiling --features=profile-with-tracy
         env:
           CARGO_INCREMENTAL: 0
           RUSTFLAGS: "-C debuginfo=0 -D warnings"
 
       - name: Build (type-check)
-        run: cargo build --all-targets --features=type-check
+        run: cargo build --package=profiling --features=type-check
+        env:
+          CARGO_INCREMENTAL: 0
+          RUSTFLAGS: "-C debuginfo=0 -D warnings"
+
+      - name: Build (type-check)
+        run: cargo build --package=demo-puffin
         env:
           CARGO_INCREMENTAL: 0
           RUSTFLAGS: "-C debuginfo=0 -D warnings"
@@ -79,7 +85,6 @@ jobs:
           RUSTFLAGS: "-C debuginfo=0 -D warnings"
 
       # Test that we compile with no default features enabled
-      # Only do this on windows, some of the profilers only support windows
       - name: Run tests (
         run: cargo build --no-default-features
         env:
@@ -111,7 +116,7 @@ jobs:
       - name: Run clippy (puffin)
         run: >
           cargo clippy
-          --all-targets
+          --package=profiling
           --features profile-with-puffin
           --
           -D warnings
@@ -119,7 +124,7 @@ jobs:
       - name: Run clippy (optick)
         run: >
           cargo clippy
-          --all-targets
+          --package=profiling
           --features profile-with-optick
           --
           -D warnings
@@ -127,7 +132,7 @@ jobs:
       - name: Run clippy (superluminal)
         run: >
           cargo clippy
-          --all-targets
+          --package=profiling
           --features profile-with-superluminal
           --
           -D warnings
@@ -135,7 +140,7 @@ jobs:
       - name: Run clippy (tracing)
         run: >
           cargo clippy
-          --all-targets
+          --package=profiling
           --features profile-with-tracing
           --
           -D warnings
@@ -143,7 +148,7 @@ jobs:
       - name: Run clippy (tracy)
         run: >
           cargo clippy
-          --all-targets
+          --package=profiling
           --features profile-with-tracy
           --
           -D warnings
@@ -151,7 +156,14 @@ jobs:
       - name: Run clippy (type-check)
         run: >
           cargo clippy
-          --all-targets
+          --package=profiling
           --features type-check
+          --
+          -D warnings
+
+      - name: Run clippy (demo-puffin)
+        run: >
+          cargo clippy
+          --package=demo-puffin
           --
           -D warnings

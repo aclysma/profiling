@@ -1,16 +1,8 @@
 #![allow(dead_code)]
 
-#[cfg(not(any(
-    feature = "profile-with-optick",
-    feature = "profile-with-puffin",
-    feature = "profile-with-superluminal",
-    feature = "profile-with-tracing",
-    feature = "profile-with-tracy",
-)))]
-fn main() {
-    panic!("No profiler feature flags were enabled. Since this is an example, this is probably a mistake.");
-}
-
+//
+// Example of marking up all functions on an impl block
+//
 struct Foo;
 
 #[profiling::all_functions]
@@ -25,6 +17,79 @@ impl Foo {
     }
 }
 
+//
+// Examples of marking up a single function
+//
+
+// This `profiling::function` attribute is equivalent to profiling::scope!(function_name)
+#[profiling::function]
+fn some_function() {
+    burn_time(5);
+}
+
+#[profiling::function]
+fn some_inner_function(_iteration_index: usize) {
+    burn_time(10);
+}
+
+//
+// Example of multiple scopes in a single function
+//
+fn some_other_function(iterations: usize) {
+    profiling::scope!("some_other_function");
+    burn_time(5);
+
+    {
+        profiling::scope!("do iterations");
+        for i in 0..iterations {
+            profiling::scope!(
+                "some_inner_function_that_sleeps",
+                format!("other data {}", i).as_str()
+            );
+
+            // Mixing general profiling API calls with profiler-specific API calls is allowed
+            #[cfg(feature = "profile-with-optick")]
+            profiling::optick::tag!("extra_data", "MORE DATA");
+
+            some_inner_function(i);
+            burn_time(1);
+        }
+    }
+}
+
+// This function just spin-waits for some amount of time
+fn burn_time(millis: u128) {
+    let start_time = std::time::Instant::now();
+    loop {
+        if (std::time::Instant::now() - start_time).as_millis() > millis {
+            break;
+        }
+    }
+}
+
+#[cfg(not(any(
+    feature = "profile-with-optick",
+    feature = "profile-with-puffin",
+    feature = "profile-with-superluminal",
+    feature = "profile-with-tracing",
+    feature = "profile-with-tracy",
+)))]
+fn main() {
+    println!("==================================================================================================");
+    println!("No profiler feature flags were enabled. Since this is an example, this is probably a mistake.");
+    println!("Please compile with a feature enabled to run this example.");
+    println!("");
+    println!("Example:");
+    println!("    cargo run --example simple --features=\"profile-with-tracy\"");
+    println!("");
+    println!("Supported feature flags are documented here: https://github.com/aclysma/profiling#feature-flags");
+    println!("");
+    println!("Alternatively, try the demo-puffin example:");
+    println!("    cd demo-puffin");
+    println!("    cargo run --package demo-puffin");
+    println!("==================================================================================================");
+}
+
 // Just check that one of these features was enabled because otherwise, nothing interesting will happen
 #[cfg(any(
     feature = "profile-with-optick",
@@ -34,6 +99,17 @@ impl Foo {
     feature = "profile-with-tracy",
 ))]
 fn main() {
+    #[cfg(feature = "profile-with-optick")]
+    println!("optick");
+    #[cfg(feature = "profile-with-puffin")]
+    println!("puffin");
+    #[cfg(feature = "profile-with-superluminal")]
+    println!("superluminal");
+    #[cfg(feature = "profile-with-tracing")]
+    println!("tracing");
+    #[cfg(feature = "profile-with-tracy")]
+    println!("tracy");
+
     // Starting the Tracy client is necessary before any invoking any of its APIs
     #[cfg(feature = "profile-with-tracy")]
     tracy_client::Client::start();
@@ -100,46 +176,4 @@ fn main() {
         // Finish the frame.
         profiling::finish_frame!();
     }
-}
-
-fn burn_time(millis: u128) {
-    let start_time = std::time::Instant::now();
-    loop {
-        if (std::time::Instant::now() - start_time).as_millis() > millis {
-            break;
-        }
-    }
-}
-
-// This `profiling::function` attribute is equivalent to profiling::scope!(function_name)
-#[profiling::function]
-fn some_function() {
-    burn_time(5);
-}
-
-fn some_other_function(iterations: usize) {
-    profiling::scope!("some_other_function");
-    burn_time(5);
-
-    {
-        profiling::scope!("do iterations");
-        for i in 0..iterations {
-            profiling::scope!(
-                "some_inner_function_that_sleeps",
-                format!("other data {}", i).as_str()
-            );
-
-            // Mixing general profiling API calls with profiler-specific API calls is allowed
-            #[cfg(feature = "profile-with-optick")]
-            profiling::optick::tag!("extra_data", "MORE DATA");
-
-            some_inner_function(i);
-            burn_time(1);
-        }
-    }
-}
-
-#[profiling::function]
-fn some_inner_function(_iteration_index: usize) {
-    burn_time(10);
 }
