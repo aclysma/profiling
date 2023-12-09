@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.0.12
 * Update to puffin 0.18
 * Puffin example moved to a demo project, rewritten to use egui/eframe
 
