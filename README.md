@@ -24,8 +24,10 @@ launched. If this is a concern, please review the enabled profiler(s) documentat
 
 * https://github.com/EmbarkStudios/puffin
 * Cross-platform
-* Unlike the other backends, `puffin` relies on your app providing an imgui window to draw the UI in-process. The
-below screenshots have a profiled application open with the puffin imgui window visible.
+* You need to call `profiling::finish_frame!()` at least once per frame
+* To show the flamegraph, you either need to use [`puffin_http`](`https://github.com/EmbarkStudios/puffin/tree/main/puffin_http`) and [`puffin_viewer`](`https://github.com/EmbarkStudios/puffin/tree/main/puffin_viewer`), or if you're writing an [`egui`](https://github.com/emilk/egui) app, use [`puffin_egui`](`https://github.com/EmbarkStudios/puffin/tree/main/puffin_egui`).
+
+[![Puffin](screenshots/puffin-small.png)](screenshots/puffin.png)
 
 ## Optick
 
@@ -45,7 +47,7 @@ optick capture code and linking against it manually. The UI is windows only.
 ## Tracing
 
 * https://crates.io/crates/tracing
-* Cross-platform  
+* Cross-platform
 * The tracing backend injects tracing `span!()` macros that match the lifetime of the profiling macros.
 Tracing uses callbacks rather than inlining specific pre-determined code,
 so it is more flexible than profiling
@@ -86,7 +88,7 @@ no dependencies or runtime code.
  * Authors of binaries that want to have multiple options for profiling their code, but don't want to duplicate their
    instrumentation once per each profiler's individual API.
  * Authors of libraries that would like to instrument their crate for their end-users.
- 
+
 This crate is intended to be **TINY**. It won't support every possible usage, just the basics. I'm open to adding
 more things but I plan to be very selective to maintain a slim size.
 
@@ -102,8 +104,8 @@ no additional overhead.
 
 Using profiling crates (i.e. puffin/optick/etc.) directly:
  * For authors of binaries, you may still need to use APIs on those crates to get started. But when instrumenting your
-   code, `profiling::scope!("Scope Name")` inside a function or `#[profiling::function]` on a function will instrument 
-   it for all the supported profiler-specific crates. You can still use those crates directly if you want to take 
+   code, `profiling::scope!("Scope Name")` inside a function or `#[profiling::function]` on a function will instrument
+   it for all the supported profiler-specific crates. You can still use those crates directly if you want to take
    advantage of custom APIs they provide to surface additional data.
  * For authors of upstream libraries, this crate lets you implement simple instrumentation once. Hopefully this will
    allow the community to benefit from instrumented profiling, even if a significant amount of a codebase is made
@@ -116,7 +118,7 @@ and will immediately work). The examples demonstrate this for all the supported 
 at the docs for the profiler you're interested in using! `profiling` re-exports the profiler crates if they are
 enabled, simplifying the modifications you would need to make to your Cargo.toml.
 
-Once initialized, you can mix/match the macros provided by your profiler of choice and the generic ones in this 
+Once initialized, you can mix/match the macros provided by your profiler of choice and the generic ones in this
 crate. For example:
 
 ```rust
@@ -144,7 +146,7 @@ fn my_function() {
 }
 ```
 
-Take a look at the code for the helpful macros `register_thread!()` and `finish_frame!()`. 
+Take a look at the code for the helpful macros `register_thread!()` and `finish_frame!()`.
 
 I recommend adding features for each backend you want to use to your binary crate. This allows you to optionally compile
 in code to setup and configure a backend.
@@ -193,15 +195,15 @@ If the end-user of your library doesn't use profiling, the macros in this crate 
    can connect to the process using optick/tracy/superluminal. Some of these are windows only!
 
 ```
-run --example simple --features="profile-with-optick" 
-run --example simple --features="profile-with-tracy" 
-run --example simple --features="profile-with-puffin" 
-run --example simple --features="profile-with-superluminal" 
+run --example simple --features="profile-with-optick"
+run --example simple --features="profile-with-tracy"
+run --example simple --features="profile-with-puffin"
+run --example simple --features="profile-with-superluminal"
 ```
 
  * puffin: Launches a basic app with imgui integration showing the puffin UI. This one should run everywhere
    that supports imgui.
- 
+
 ```
 cargo run --example puffin --features="profile-with-puffin"
 ```
