@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.13
+* Update MSRV to 1.60
+* Make feature dependency on profiling-procmacros optional so that it is no longer being unintentionally enabled
+
 ## 1.0.12
 * Update to puffin 0.18
 * Puffin example moved to a demo project, rewritten to use egui/eframe
