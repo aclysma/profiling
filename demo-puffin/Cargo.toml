@@ -20,11 +20,11 @@ categories = ["development-tools::profiling"]
 [dependencies]
 profiling = { path = "../profiling", features = ["profile-with-puffin"] }
 
-puffin = "0.18.0"
-puffin_egui = "0.24.0"
-egui = "0.24.0"
+puffin = "0.19.0"
+puffin_egui = "0.25.0"
+egui = "0.25.0"
 # wgpu also works fine here
-eframe = { version = "0.24.0", default-features = false, features = ["glow"] }
+eframe = { version = "0.25.0", default-features = false, features = ["glow"] }
 
 log = "0.4"
 env_logger = "0.6"
