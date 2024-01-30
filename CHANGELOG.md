@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+* Update MSRV to 1.65
+* Update puffin to 0.19
+
 ## 1.0.13
 * Update MSRV to 1.60
 * Make feature dependency on profiling-procmacros optional so that it is no longer being unintentionally enabled
