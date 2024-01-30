@@ -21,6 +21,7 @@ jobs:
             toolchain: 1.70.0
           - os: windows-2022
             toolchain: 1.70.0
+
     runs-on: ${{ matrix.os }}
     needs: clean
     steps:
@@ -89,9 +90,24 @@ jobs:
           CARGO_INCREMENTAL: 0
           RUSTFLAGS: "-C debuginfo=0 -D warnings"
 
-      - name: Build (type-check)
+  build-demo:
+    strategy:
+      matrix:
+        toolchain: [stable, beta]
+        os: [windows-2022, ubuntu-22.04, macos-12]
+        exclude:
+          - os: macos-12
+            toolchain: beta
+          - os: windows-2022
+            toolchain: beta
+
+    runs-on: ${{ matrix.os }}
+    needs: build
+    steps:
+      - name: Build (demo-puffin)
         working-directory: ./demo-puffin
         run: cargo build --package=demo-puffin
+
         env:
           CARGO_INCREMENTAL: 0
           RUSTFLAGS: "-C debuginfo=0 -D warnings"
