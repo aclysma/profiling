@@ -208,6 +208,16 @@ run --example simple --features="profile-with-superluminal"
 cargo run --example puffin --features="profile-with-puffin"
 ```
 
+## MSRV
+
+This project will strive to keep a conservative MSRV, but practically this is most likely to be
+limited by upstream crate MSRV. It may be that some backends will support a lower MSRV than others.
+
+As a point of reference, currently the most popular crate relying on profiling is wgpu, and their
+MSRV is constrained to Firefox nightly build MSRV. So the MSRV of this crate should not move faster
+than wgpu and firefox nightly. (See `MINIMUM_RUST_VERSION` in
+[`python/mozboot/mozboot/util.py`](https://searchfox.org/mozilla-central/source/python/mozboot/mozboot/util.py))
+
 ## License
 
 Licensed under either of

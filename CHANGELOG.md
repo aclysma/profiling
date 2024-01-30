@@ -1,7 +1,7 @@
 # Changelog
 
 ## Unreleased
-* Update MSRV to 1.65
+* Update MSRV to 1.70
 * Update puffin to 0.19
 
 ## 1.0.13
