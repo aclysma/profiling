@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.0.14
 * Due to MSRV being practically limited by selected profiling backend, the formally declared
   MSRV has been removed. See readme.md for details.
 * Update puffin to 0.19
