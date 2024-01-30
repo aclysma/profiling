@@ -104,6 +104,18 @@ jobs:
     runs-on: ${{ matrix.os }}
     needs: build
     steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: ${{ matrix.toolchain }}
+          override: true
+
+      - uses: actions/cache@v2
+        with:
+          path: |
+            target
+          key: ${{ runner.os }}-cargo-check-test-${{ matrix.toolchain }}-${{ hashFiles('**/Cargo.lock') }}
+
       - name: Build (demo-puffin)
         working-directory: ./demo-puffin
         run: cargo build --package=demo-puffin
