@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+* Due to MSRV being practically limited by selected profiling backend, the formally declared
+  MSRV has been removed. See readme.md for details.
+* Update puffin to 0.19
+
 ## 1.0.13
 * Update MSRV to 1.60
 * Make feature dependency on profiling-procmacros optional so that it is no longer being unintentionally enabled
