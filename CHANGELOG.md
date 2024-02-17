@@ -2,6 +2,7 @@
 
 ## 1.0.15
 * Update tracy-client to 0.17
+* Misc. egui/puffin_egui version bumps in the puffin demo
 
 ## 1.0.14
 * Due to MSRV being practically limited by selected profiling backend, the formally declared
