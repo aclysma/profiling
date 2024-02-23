@@ -135,7 +135,7 @@ jobs:
 
       - uses: EmbarkStudios/cargo-deny-action@v1
         with:
-          arguments: --manifest-path=demo-puffin/Cargo.toml
+          manifest-path: demo-puffin/Cargo.toml
           command: check ${{ matrix.checks }}
 
   clean:
