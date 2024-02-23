@@ -11,8 +11,7 @@ homepage = "https://github.com/aclysma/profiling"
 keywords = ["performance", "profiling"]
 categories = ["development-tools::profiling"]
 exclude = ["/examples", "/screenshots"]
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+rust-version = "1.60"
 
 [dependencies]
 puffin = { version = "0.19", optional = true }

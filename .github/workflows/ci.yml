@@ -12,20 +12,16 @@ jobs:
   build:
     strategy:
       matrix:
-        toolchain: [stable, beta, 1.70.0]
+        toolchain: [stable, beta]
         os: [windows-2022, ubuntu-22.04, macos-12]
         exclude:
           - os: macos-12
             toolchain: beta
           - os: windows-2022
             toolchain: beta
-          - os: macos-12
-            toolchain: 1.70.0
-          - os: windows-2022
-            toolchain: 1.70.0
 
     runs-on: ${{ matrix.os }}
-    needs: clean
+    needs: [clean, check-msrv]
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@master
@@ -99,6 +95,32 @@ jobs:
         with:
           manifest-path: demo-puffin/Cargo.toml
           command: check ${{ matrix.checks }}
+
+  check-msrv:
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        config:
+          - package: profiling
+            msrv: '1.60'
+            extra-args: --no-default-features
+          - package: profiling-procmacros
+            msrv: '1.65'
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.config.msrv }}
+
+      - uses: Swatinem/rust-cache@v2
+
+      # Running cargo check should be enough to find MSRV problems
+      - name: Verify MSRV
+        run: >
+          cargo check
+          -p ${{ matrix.config.package }}
+          ${{ matrix.config.extra-args }}
 
   clean:
     runs-on: ubuntu-22.04
