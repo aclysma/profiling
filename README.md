@@ -210,12 +210,9 @@ cargo run --example puffin --features="profile-with-puffin"
 
 ## MSRV
 
-This project will strive to keep a conservative MSRV, but practically this is most likely to be
-limited by upstream crate MSRV. It may be that some backends will support a lower MSRV than others.
-
-Because the MSRV is in practice variable based on what features are enabled, no MSRV will be set in
-cargo.toml. Otherwise this crate would only compile with the least conservative MSRV of all possible
-upstream profiling backends.
+This project will strive to keep a conservative MSRV, but some backends will support a lower MSRV than others.
+The MSRV set in this project only represents the MSRV for compiling the profiling crate with no backends
+enabled.
 
 As a point of reference, currently the most popular crate relying on profiling is wgpu, and their
 MSRV is constrained to Firefox nightly build MSRV. So the MSRV of this crate (ignoring backends) 
