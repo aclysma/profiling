@@ -99,9 +99,7 @@ fn impl_block(
     _instrumented_function_name: &str,
 ) -> syn::Block {
     parse_quote! {
-        {
-            #body
-        }
+        #body
     }
 }
 
