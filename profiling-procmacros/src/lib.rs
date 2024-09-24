@@ -165,12 +165,12 @@ fn impl_block(
 #[cfg(feature = "profile-with-tracy")]
 fn impl_block(
     body: &syn::Block,
-    instrumented_function_name: &str,
+    _instrumented_function_name: &str,
 ) -> syn::Block {
     parse_quote! {
         {
             // Note: callstack_depth is 0 since this has significant overhead
-            let _tracy_span = profiling::tracy_client::span!(#instrumented_function_name, 0);
+            let _tracy_span = profiling::tracy_client::span!();
 
             #body
         }
