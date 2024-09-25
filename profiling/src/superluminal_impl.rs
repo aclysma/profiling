@@ -10,6 +10,27 @@ macro_rules! scope {
 }
 
 #[macro_export]
+macro_rules! function_scope {
+    () => {
+        let function_name = {
+            struct S;
+            let type_name = core::any::type_name::<S>();
+            &type_name[..type_name.len() - 3]
+        };
+        let _superluminal_guard = $crate::superluminal::SuperluminalGuard::new(function_name);
+    };
+    ($data:expr) => {
+        let function_name = {
+            struct S;
+            let type_name = core::any::type_name::<S>();
+            &type_name[..type_name.len() - 3]
+        };
+        let _superluminal_guard =
+            $crate::superluminal::SuperluminalGuard::new_with_data(function_name, $data);
+    };
+}
+
+#[macro_export]
 macro_rules! register_thread {
     () => {
         let thread_name = std::thread::current()

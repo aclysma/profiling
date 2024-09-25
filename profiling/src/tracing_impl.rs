@@ -10,6 +10,13 @@ macro_rules! scope {
     };
 }
 
+// NOTE: Not supported as tracing does not support non literal spans. Use #[profiling::function] instead.
+#[macro_export]
+macro_rules! function_scope {
+    () => {};
+    ($data:expr) => {};
+}
+
 #[macro_export]
 macro_rules! register_thread {
     () => {};

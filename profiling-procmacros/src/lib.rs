@@ -105,42 +105,19 @@ fn impl_block(
     }
 }
 
-#[cfg(feature = "profile-with-puffin")]
+#[cfg(any(
+    feature = "profile-with-puffin",
+    feature = "profile-with-optick",
+    feature = "profile-with-superluminal",
+    feature = "profile-with-tracy"
+))]
 fn impl_block(
     body: &syn::Block,
     _instrumented_function_name: &str,
 ) -> syn::Block {
     parse_quote! {
         {
-            profiling::puffin::profile_function!();
-
-            #body
-        }
-    }
-}
-
-#[cfg(feature = "profile-with-optick")]
-fn impl_block(
-    body: &syn::Block,
-    _instrumented_function_name: &str,
-) -> syn::Block {
-    parse_quote! {
-        {
-            profiling::optick::event!();
-
-            #body
-        }
-    }
-}
-
-#[cfg(feature = "profile-with-superluminal")]
-fn impl_block(
-    body: &syn::Block,
-    instrumented_function_name: &str,
-) -> syn::Block {
-    parse_quote! {
-        {
-            let _superluminal_guard = profiling::superluminal::SuperluminalGuard::new(#instrumented_function_name);
+            profiling::function_scope!();
 
             #body
         }
@@ -156,21 +133,6 @@ fn impl_block(
         {
             let _fn_span = profiling::tracing::span!(profiling::tracing::Level::INFO, #instrumented_function_name);
             let _fn_span_entered = _fn_span.enter();
-
-            #body
-        }
-    }
-}
-
-#[cfg(feature = "profile-with-tracy")]
-fn impl_block(
-    body: &syn::Block,
-    instrumented_function_name: &str,
-) -> syn::Block {
-    parse_quote! {
-        {
-            // Note: callstack_depth is 0 since this has significant overhead
-            let _tracy_span = profiling::tracy_client::span!(#instrumented_function_name, 0);
 
             #body
         }
