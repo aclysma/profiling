@@ -45,10 +45,6 @@ fn some_other_function(iterations: usize) {
                 format!("other data {}", i).as_str()
             );
 
-            // Mixing general profiling API calls with profiler-specific API calls is allowed
-            #[cfg(feature = "profile-with-optick")]
-            profiling::optick::tag!("extra_data", "MORE DATA");
-
             some_inner_function(i);
             burn_time(1);
         }
