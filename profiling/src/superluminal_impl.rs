@@ -17,7 +17,7 @@ macro_rules! function_scope {
             let type_name = core::any::type_name::<S>();
             &type_name[..type_name.len() - 3]
         };
-        let _superluminal_guard = $crate::superluminal::SuperluminalGuard::new(function_name);
+        $crate::scope!(function_name);
     };
     ($data:expr) => {
         let function_name = {
@@ -25,8 +25,7 @@ macro_rules! function_scope {
             let type_name = core::any::type_name::<S>();
             &type_name[..type_name.len() - 3]
         };
-        let _superluminal_guard =
-            $crate::superluminal::SuperluminalGuard::new_with_data(function_name, $data);
+        $crate::scope!(function_name, $data);
     };
 }
 
