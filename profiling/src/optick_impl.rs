@@ -11,6 +11,17 @@ macro_rules! scope {
 }
 
 #[macro_export]
+macro_rules! function_scope {
+    () => {
+        $crate::optick::event!();
+    };
+    ($data:expr) => {
+        $crate::optick::event!();
+        $crate::optick::tag!("tag", $data);
+    };
+}
+
+#[macro_export]
 macro_rules! register_thread {
     () => {
         let thread_name = std::thread::current()

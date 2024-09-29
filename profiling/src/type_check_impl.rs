@@ -12,6 +12,14 @@ macro_rules! scope {
 }
 
 #[macro_export]
+macro_rules! function_scope {
+    () => {};
+    ($data:expr) => {
+        let _: &str = $data;
+    };
+}
+
+#[macro_export]
 macro_rules! register_thread {
     () => {};
     ($name:expr) => {

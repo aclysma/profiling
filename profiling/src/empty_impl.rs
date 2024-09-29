@@ -16,6 +16,24 @@ macro_rules! scope {
     ($name:expr, $data:expr) => {};
 }
 
+/// Opens a scope automatically named after the current function.
+/// - profiling::function_scope!() - Opens a scope with the current function name
+/// - profiling::function_scope!(data: &str) - Opens a scope with the current function name and an extra data field.
+///
+/// ```
+/// fn function_a(){
+///     profiling::function_scope!();
+/// }
+/// fn function_b(iteration: u32){
+///     profiling::function_scope!(format!("iteration {}", iteration).as_str());
+/// }
+/// ```
+#[macro_export]
+macro_rules! function_scope {
+    () => {};
+    ($data:expr) => {};
+}
+
 /// Registers a thread with the profiler API(s). This is usually setting a name for the thread.
 /// Two variants:
 ///  - register_thread!() - Tries to get the name of the thread, or an ID if no name is set
