@@ -32,12 +32,12 @@ fn some_inner_function(_iteration_index: usize) {
     burn_time(10);
 }
 
-fn function_scope_function(){
+fn function_scope_function() {
     profiling::function_scope!();
     burn_time(10);
 }
 
-fn function_scope_function_with_data(iteration_index : usize){
+fn function_scope_function_with_data(iteration_index: usize) {
     profiling::function_scope!(iteration_index.to_string().as_str());
     burn_time(5);
 }
@@ -64,7 +64,6 @@ fn some_other_function(iterations: usize) {
             some_inner_function(i);
             burn_time(1);
         }
-
     }
 }
 
@@ -182,7 +181,7 @@ fn main() {
         Foo::function1();
         Foo::function2();
 
-        for i in 0..10{
+        for i in 0..10 {
             function_scope_function();
             function_scope_function_with_data(i);
             burn_time(1);

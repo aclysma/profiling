@@ -16,10 +16,10 @@ macro_rules! scope {
     ($name:expr, $data:expr) => {};
 }
 
-/// Opens a scope automatically named after the current function. 
+/// Opens a scope automatically named after the current function.
 /// - profiling::function_scope!() - Opens a scope with the current function name
 /// - profiling::function_scope!(data: &str) - Opens a scope with the current function name and an extra data field.
-/// 
+///
 /// ```
 /// fn function_a(){
 ///     profiling::function_scope!();
@@ -29,7 +29,7 @@ macro_rules! scope {
 /// }
 /// ```
 #[macro_export]
-macro_rules! function_scope{
+macro_rules! function_scope {
     () => {};
     ($data:expr) => {};
 }
