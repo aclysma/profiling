@@ -43,7 +43,7 @@ macro_rules! function_scope {
     ($data:expr) => {
         let location = $crate::tracy_client::span_location!();
         let tracy_span = $crate::tracy_client::Client::running()
-            .expect("function! without a running tracy_client::Client")
+            .expect("function_scope! without a running tracy_client::Client")
             .span(location, 0);
         tracy_span.emit_text($data);
     };
