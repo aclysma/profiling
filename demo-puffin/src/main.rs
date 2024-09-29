@@ -50,10 +50,6 @@ fn some_other_function(iterations: usize) {
                 format!("other data {}", i).as_str()
             );
 
-            // Mixing general profiling API calls with profiler-specific API calls is allowed
-            #[cfg(feature = "profile-with-optick")]
-            profiling::optick::tag!("extra_data", "MORE DATA");
-
             some_inner_function(i);
             burn_time(1);
         }
@@ -123,6 +119,6 @@ fn main() -> eframe::Result<()> {
     eframe::run_native(
         "eframe template",
         native_options,
-        Box::new(|cc| Box::new(TemplateApp::new(cc))),
+        Box::new(|cc| Ok(Box::new(TemplateApp::new(cc))))
     )
 }
