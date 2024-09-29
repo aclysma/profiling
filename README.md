@@ -80,6 +80,9 @@ Currently, there's just six macros:
  * `profiling::finish_frame!()`
      * Many profilers have the concept of a "frame" as a unit of work. Use this to indicate where one frame ends and the
        next one begins.
+ * `profiling::function_scope!([tag: &str])`
+     * Macro that can be placed within a function to create a scope with the function name
+     * tag: optional extra data
 
 Support for individual profilers can be turned on/off with feature flags. By default, they're all off, resulting in
 no dependencies or runtime code.
