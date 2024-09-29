@@ -37,8 +37,8 @@ fn function_scope_function() {
     burn_time(10);
 }
 
-fn function_scope_function_with_data(iteration_index: usize) {
-    profiling::function_scope!(iteration_index.to_string().as_str());
+fn function_scope_function_with_data(_iteration_index: usize) {
+    profiling::function_scope!(_iteration_index.to_string().as_str());
     burn_time(5);
 }
 
