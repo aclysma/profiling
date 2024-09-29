@@ -18,5 +18,7 @@ macro_rules! register_thread {
 
 #[macro_export]
 macro_rules! finish_frame {
-    () => {};
+    () => {
+        $crate::tracing::event!($crate::tracing::Level::INFO, tracy.frame_mark = true);
+    };
 }
