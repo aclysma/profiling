@@ -50,7 +50,8 @@ fn some_other_function(iterations: usize) {
     burn_time(5);
 
     {
-        profiling::scope!("do iterations");
+        // Make this a non-literal to touch more of the API
+        profiling::scope!(&"do iterations".to_string());
         for i in 0..iterations {
             profiling::scope!(
                 "some_inner_function_that_sleeps",
