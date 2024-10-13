@@ -30,7 +30,7 @@ fn some_inner_function(_iteration_index: usize) {
     burn_time(1);
 }
 
-fn some_macro_function(){
+fn some_macro_function() {
     profiling::function_scope!();
     burn_time(5);
 }
@@ -119,6 +119,6 @@ fn main() -> eframe::Result<()> {
     eframe::run_native(
         "eframe template",
         native_options,
-        Box::new(|cc| Ok(Box::new(TemplateApp::new(cc))))
+        Box::new(|cc| Ok(Box::new(TemplateApp::new(cc)))),
     )
 }

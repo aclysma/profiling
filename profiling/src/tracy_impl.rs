@@ -11,7 +11,7 @@ macro_rules! scope {
         _tracy_span.emit_text($data);
     };
     ($name:expr) => {
-        let function_name = {
+        let _function_name = {
             struct S;
             let type_name = core::any::type_name::<S>();
             &type_name[..type_name.len() - 3]
@@ -19,10 +19,10 @@ macro_rules! scope {
         let _tracy_span = $crate::tracy_client::Client::running()
             .expect("scope! without a running tracy_client::Client")
             // Note: callstack_depth is 0 since this has significant overhead
-            .span_alloc(Some($name), function_name, file!(), line!(), 0);
+            .span_alloc(Some($name), _function_name, file!(), line!(), 0);
     };
     ($name:expr, $data:expr) => {
-        let function_name = {
+        let _function_name = {
             struct S;
             let type_name = core::any::type_name::<S>();
             &type_name[..type_name.len() - 3]
@@ -30,7 +30,7 @@ macro_rules! scope {
         let _tracy_span = $crate::tracy_client::Client::running()
             .expect("scope! without a running tracy_client::Client")
             // Note: callstack_depth is 0 since this has significant overhead
-            .span_alloc(Some($name), function_name, file!(), line!(), 0);
+            .span_alloc(Some($name), _function_name, file!(), line!(), 0);
         _tracy_span.emit_text($data);
     };
 }
@@ -38,14 +38,14 @@ macro_rules! scope {
 #[macro_export]
 macro_rules! function_scope {
     () => {
-        $crate::tracy_client::span!();
+        let _tracy_span = $crate::tracy_client::span!();
     };
     ($data:expr) => {
-        let location = $crate::tracy_client::span_location!();
-        let tracy_span = $crate::tracy_client::Client::running()
+        let _location = $crate::tracy_client::span_location!();
+        let _tracy_span = $crate::tracy_client::Client::running()
             .expect("function_scope! without a running tracy_client::Client")
-            .span(location, 0);
-        tracy_span.emit_text($data);
+            .span(_location, 0);
+        _tracy_span.emit_text($data);
     };
 }
 
