@@ -10,7 +10,6 @@ macro_rules! scope {
     };
 }
 
-// NOTE: Not supported as tracing does not support non literal spans. Use #[profiling::function] instead.
 #[macro_export]
 macro_rules! function_scope {
     () => {
@@ -19,13 +18,13 @@ macro_rules! function_scope {
             let type_name = core::any::type_name::<S>();
             &type_name[..type_name.len() - 3]
         };
-        let span = $crate::tracing::span!(
+        let _span = $crate::tracing::span!(
             $crate::tracing::Level::INFO,
             "function_scope",
             "{}",
             function_name
         );
-        let _span_entered = span.enter();
+        let _span_entered = _span.enter();
     };
     ($data:expr) => {
         let function_name = {
@@ -33,13 +32,14 @@ macro_rules! function_scope {
             let type_name = core::any::type_name::<S>();
             &type_name[..type_name.len() - 3]
         };
-        let span = $crate::tracing::span!(
+        let _span = $crate::tracing::span!(
             $crate::tracing::Level::INFO,
             "function_scope",
             tag = $data,
             "{}",
             function_name
         );
+        let _span_entered = _span.enter();
     };
 }
 
