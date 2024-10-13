@@ -30,6 +30,11 @@ fn some_inner_function(_iteration_index: usize) {
     burn_time(1);
 }
 
+fn some_macro_function(){
+    profiling::function_scope!();
+    burn_time(5);
+}
+
 //
 // Example of multiple scopes in a single function
 //
@@ -82,6 +87,7 @@ impl eframe::App for TemplateApp {
         profiling::scope!("Main Thread");
         some_function();
         some_other_function(3);
+        some_macro_function();
 
         Foo::function1();
         Foo::function2();

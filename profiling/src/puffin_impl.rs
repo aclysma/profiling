@@ -9,6 +9,16 @@ macro_rules! scope {
 }
 
 #[macro_export]
+macro_rules! function_scope {
+    () => {
+        $crate::puffin::profile_function!();
+    };
+    ($data:expr) => {
+        $crate::puffin::profile_function!($data);
+    };
+}
+
+#[macro_export]
 macro_rules! register_thread {
     () => {};
     ($name:expr) => {

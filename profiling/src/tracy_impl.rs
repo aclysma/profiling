@@ -35,6 +35,20 @@ macro_rules! scope {
     };
 }
 
+#[macro_export]
+macro_rules! function_scope {
+    () => {
+        $crate::tracy_client::span!();
+    };
+    ($data:expr) => {
+        let location = $crate::tracy_client::span_location!();
+        let tracy_span = $crate::tracy_client::Client::running()
+            .expect("function_scope! without a running tracy_client::Client")
+            .span(location, 0);
+        tracy_span.emit_text($data);
+    };
+}
+
 /// Registers a thread with the profiler API(s). This is usually setting a name for the thread.
 /// Two variants:
 ///  - register_thread!() - Tries to get the name of the thread, or an ID if no name is set
