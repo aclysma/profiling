@@ -2,10 +2,10 @@
 
 #[macro_export]
 macro_rules! scope {
-    ($name:expr) => {
+    ($name:literal) => {
         let _: &str = $name;
     };
-    ($name:expr, $data:expr) => {
+    ($name:literal, $data:expr) => {
         let _: &str = $name;
         let _: &str = $data;
     };
