@@ -32,22 +32,42 @@ jobs:
       - name: Build (puffin)
         run: cargo build --package=profiling --features=profile-with-puffin
 
+      - name: Build (puffin example)
+        run: cargo build --package=profiling --features=profile-with-puffin --example=simple
+
       - name: Build (superluminal)
         if: ${{ runner.os == 'Windows' && matrix.toolchain == 'stable' }}
         run: cargo build --package=profiling --features=profile-with-superluminal
+
+      - name: Build (superluminal example)
+        if: ${{ runner.os == 'Windows' && matrix.toolchain == 'stable' }}
+        run: cargo build --package=profiling --features=profile-with-superluminal --example=simple
 
       - name: Build (optick)
         if: ${{ runner.os == 'Windows' && matrix.toolchain == 'stable' }}
         run: cargo build --package=profiling --features=profile-with-optick
 
+      - name: Build (optick example)
+        if: ${{ runner.os == 'Windows' && matrix.toolchain == 'stable' }}
+        run: cargo build --package=profiling --features=profile-with-optick --example=simple
+
       - name: Build (tracing)
         run: cargo build --package=profiling --features=profile-with-tracing
+
+      - name: Build (tracing example)
+        run: cargo build --package=profiling --features=profile-with-tracing --example=simple
 
       - name: Build (tracy)
         run: cargo build --package=profiling --features=profile-with-tracy
 
+      - name: Build (tracy example)
+        run: cargo build --package=profiling --features=profile-with-tracy --example=simple
+
       - name: Build (type-check)
         run: cargo build --package=profiling --features=type-check
+
+      - name: Build (type-check example)
+        run: cargo build --package=profiling --features=type-check --example=simple
 
       # Only do this on windows, some of the profilers only support windows
       - name: Run tests
