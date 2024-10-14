@@ -69,6 +69,8 @@ Currently, there's just six macros:
  * `profiling::scope!(name: &str, [tag: &str])`
      * name: scopes will appear in the profiler under this name
      * tag: optional extra data
+     * For maximum compatibility, you are **strongly** recommended to use literal strings for the name. Some backends require
+       static lifetime string references and some require literal strings.
  * `#[profiling::function]`
      * procmacro placed on a function to quickly wrap it in a scope using the function name
  * `#[profiling::all_functions]`
