@@ -49,11 +49,11 @@ fn some_other_function(iterations: usize) {
     profiling::scope!("some_other_function");
     burn_time(5);
 
-    // Make this a non-literal to touch more of the API
-    //let scope_str = "do iterations";//.to_string();
-    //let scope_str_ref = scope_str;
     {
-        profiling::scope!("do iterations");
+        // Make this a non-literal to touch more of the API. It still has to be 'static scope though
+        // for multiple of the backends
+        let scope_name = "do_iterations";
+        profiling::scope!(scope_name);
         for i in 0..iterations {
             profiling::scope!(
                 "some_inner_function_that_sleeps",
