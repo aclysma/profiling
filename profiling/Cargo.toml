@@ -1,6 +1,6 @@
 [package]
 name = "profiling"
-version = "1.0.15"
+version = "1.0.16"
 authors = ["Philip Degarmo <aclysma@gmail.com>"]
 edition = "2018"
 description = "This crate provides a very thin abstraction over other profiler crates."
@@ -19,7 +19,7 @@ optick = { version = "1.3", optional = true }
 tracing = { version = "0.1", optional = true }
 tracy-client = { version = "0.17", optional = true }
 superluminal-perf = { version = "0.1", optional = true }
-profiling-procmacros = { version = "1.0.15", path = "../profiling-procmacros", optional = true }
+profiling-procmacros = { version = "1.0.16", path = "../profiling-procmacros", optional = true }
 
 [dev-dependencies]
 bincode = "1.3.1"
