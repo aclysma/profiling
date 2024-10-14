@@ -3,10 +3,10 @@
 #[macro_export]
 macro_rules! scope {
     ($name:literal) => {
-        let _: &str = $name;
+        let _: &'static str = $name;
     };
     ($name:literal, $data:expr) => {
-        let _: &str = $name;
+        let _: &'static str = $name;
         let _: &str = $data;
     };
 }
