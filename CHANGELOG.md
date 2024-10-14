@@ -4,7 +4,7 @@
 * Address warnings from upstream rustc changes
 * Update puffin to 0.19.1
 * Update tracing-tracy to 0.11.3 and tracing-subscriber to 0.3
-* Implement finish-frame! for tracing
+* Implement finish_frame! for tracing
 * Add fuction_scope!() as an alternative to the function proc macro
 * Avoid local variable names that don't start with an underscore introduced into a function's namespace
 
