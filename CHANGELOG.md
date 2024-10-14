@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.16
+* Address warnings from upstream rustc changes
+* Update puffin to 0.19.1
+* Update tracing-tracy to 0.11.3 and tracing-subscriber to 0.3
+* Implement finish-frame! for tracing
+* Add fuction_scope!() as an alternative to the function proc macro
+* Avoid local variable names that don't start with an underscore introduced into a function's namespace
+
 ## 1.0.15
 * Update tracy-client to 0.17
 * Misc. egui/puffin_egui version bumps in the puffin demo
