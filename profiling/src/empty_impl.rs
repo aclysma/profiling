@@ -12,8 +12,13 @@
 /// ```
 #[macro_export]
 macro_rules! scope {
-    ($name:expr) => {};
-    ($name:expr, $data:expr) => {};
+    ($name:expr) => {
+        let _ = $name;
+    };
+    ($name:expr, $data:expr) => {
+        let _ = $name;
+        let _ = $data;
+    };
 }
 
 /// Opens a scope automatically named after the current function.
@@ -31,7 +36,9 @@ macro_rules! scope {
 #[macro_export]
 macro_rules! function_scope {
     () => {};
-    ($data:expr) => {};
+    ($data:expr) => {
+        let _ = $data;
+    };
 }
 
 /// Registers a thread with the profiler API(s). This is usually setting a name for the thread.
@@ -41,7 +48,9 @@ macro_rules! function_scope {
 #[macro_export]
 macro_rules! register_thread {
     () => {};
-    ($name:expr) => {};
+    ($name:expr) => {
+        let _ = $name;
+    };
 }
 
 /// Finishes the frame. This isn't strictly necessary for some kinds of applications but a pretty
