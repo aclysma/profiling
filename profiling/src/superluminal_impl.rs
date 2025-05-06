@@ -63,13 +63,13 @@ pub mod superluminal {
     const DEFAULT_SUPERLUMINAL_COLOR: u32 = 0xFFFFFFFF;
 
     impl SuperluminalGuard {
-        pub fn new(name: &str) -> Self {
+        pub fn new(name: &'static str) -> Self {
             superluminal_perf::begin_event(name);
             SuperluminalGuard
         }
 
         pub fn new_with_data(
-            name: &str,
+            name: &'static str,
             data: &str,
         ) -> Self {
             superluminal_perf::begin_event_with_data(name, data, DEFAULT_SUPERLUMINAL_COLOR);
