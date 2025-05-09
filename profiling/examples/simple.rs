@@ -157,8 +157,12 @@ fn main() {
 
     // Test that non-literals can be used
     //
-    // Does not work with these two backends:
-    #[cfg(not(any(feature = "profile-with-puffin", feature = "profile-with-tracing")))]
+    // Does not work with these three backends:
+    #[cfg(not(any(
+        feature = "profile-with-puffin",
+        feature = "profile-with-tracing",
+        feature = "profile-with-superluminal"
+    )))]
     // optick backend currently won't work with multiple `profiling::scope!` in the same scope
     #[cfg(not(any(feature = "profile-with-optick")))]
     {
