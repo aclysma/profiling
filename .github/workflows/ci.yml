@@ -15,9 +15,9 @@ jobs:
         toolchain: [stable, beta]
         os: [windows-2025, ubuntu-24.04, macos-15]
         exclude:
-          - os: macos-12
+          - os: macos-15
             toolchain: beta
-          - os: windows-2022
+          - os: windows-2025
             toolchain: beta
 
     runs-on: ${{ matrix.os }}
@@ -74,11 +74,11 @@ jobs:
     strategy:
       matrix:
         toolchain: [stable, beta]
-        os: [windows-2022, ubuntu-22.04, macos-12]
+        os: [windows-2025, ubuntu-24.04, macos-15]
         exclude:
-          - os: macos-12
+          - os: macos-15
             toolchain: beta
-          - os: windows-2022
+          - os: windows-2025
             toolchain: beta
 
     runs-on: ${{ matrix.os }}
@@ -96,7 +96,7 @@ jobs:
 
   deny-check:
     name: cargo-deny
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v1
       - uses: EmbarkStudios/cargo-deny-action@v1
@@ -109,7 +109,7 @@ jobs:
           command: check ${{ matrix.checks }}
 
   check-msrv:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         config:
@@ -135,7 +135,7 @@ jobs:
           ${{ matrix.config.extra-args }}
 
   clean:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
