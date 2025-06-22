@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         toolchain: [stable, beta]
-        os: [windows-2022, ubuntu-22.04, macos-12]
+        os: [windows-2025, ubuntu-24.04, macos-15]
         exclude:
           - os: macos-12
             toolchain: beta
