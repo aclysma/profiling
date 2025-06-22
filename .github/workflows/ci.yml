@@ -43,14 +43,6 @@ jobs:
         if: ${{ runner.os == 'Windows' && matrix.toolchain == 'stable' }}
         run: cargo build --package=profiling --features=profile-with-superluminal --example=simple
 
-      - name: Build (optick)
-        if: ${{ runner.os == 'Windows' && matrix.toolchain == 'stable' }}
-        run: cargo build --package=profiling --features=profile-with-optick
-
-      - name: Build (optick example)
-        if: ${{ runner.os == 'Windows' && matrix.toolchain == 'stable' }}
-        run: cargo build --package=profiling --features=profile-with-optick --example=simple
-
       - name: Build (tracing)
         run: cargo build --package=profiling --features=profile-with-tracing
 
@@ -158,12 +150,6 @@ jobs:
           cargo clippy
           --package=profiling
           --features profile-with-puffin
-
-      - name: Run clippy (optick)
-        run: >
-          cargo clippy
-          --package=profiling
-          --features profile-with-optick
 
       - name: Run clippy (superluminal)
         run: >
