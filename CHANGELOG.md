@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.17
+* Update superluminal to 0.4
+* Update tracy-client to 0.18 
+
 ## 1.0.16
 * Address warnings from upstream rustc changes
 * Update puffin to 0.19.1
