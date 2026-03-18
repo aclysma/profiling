@@ -44,7 +44,10 @@ allow = [
     "ISC",                            # https://www.tldrlegal.com/license/isc-license
     "MIT-0",                          # https://choosealicense.com/licenses/mit-0/
     "MIT",                            # https://tldrlegal.com/license/mit-license
+    "OFL-1.1",                        # https://spdx.org/licenses/OFL-1.1.html
+    "Ubuntu-font-1.0",                # https://ubuntu.com/legal/font-licence
     "Unicode-3.0",                    # https://www.unicode.org/license.txt
+    "Zlib",                           # https://tldrlegal.com/license/zlib-libpng-license-(zlib)
 ]
 exceptions = []
 
