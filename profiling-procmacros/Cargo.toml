@@ -13,8 +13,8 @@ categories = ["development-tools::profiling"]
 rust-version = "1.92"
 
 [dependencies]
-quote = { version = "1.0", default-features = false }
-syn = { version = "2.0", features = ["full"] }
+quote = { version = "1.0.45", default-features = false }
+syn = { version = "2.0.117", features = ["full"] }
 
 [lib]
 proc-macro = true

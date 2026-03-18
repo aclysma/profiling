@@ -1,9 +1,3 @@
 [workspace]
-members = [
-    "profiling",
-    "profiling-procmacros",
-    ".",
-]
-exclude = [
-    "demo-puffin"
-]
+members = ["profiling", "profiling-procmacros", "."]
+exclude = ["demo-puffin"]
