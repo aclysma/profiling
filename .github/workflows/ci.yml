@@ -98,14 +98,18 @@ jobs:
     name: cargo-deny
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v1
-      - uses: EmbarkStudios/cargo-deny-action@v1
+      - uses: actions/checkout@v4
+      - uses: EmbarkStudios/cargo-deny-action@v2
         with:
+          rust-version: "1.92.0"
+          log-level: error
           command: check ${{ matrix.checks }}
 
-      - uses: EmbarkStudios/cargo-deny-action@v1
+      - uses: EmbarkStudios/cargo-deny-action@v2
         with:
           manifest-path: demo-puffin/Cargo.toml
+          rust-version: "1.92.0"
+          log-level: error
           command: check ${{ matrix.checks }}
 
   check-msrv:
