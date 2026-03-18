@@ -11,7 +11,7 @@ homepage = "https://github.com/aclysma/profiling"
 keywords = ["performance", "profiling"]
 categories = ["development-tools::profiling"]
 exclude = ["/examples", "/screenshots"]
-rust-version = "1.60"
+rust-version = "1.92"
 
 [dependencies]
 puffin = { version = "0.20", optional = true }

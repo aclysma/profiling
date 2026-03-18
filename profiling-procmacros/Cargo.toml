@@ -10,14 +10,14 @@ repository = "https://github.com/aclysma/profiling"
 homepage = "https://github.com/aclysma/profiling"
 keywords = ["performance", "profiling"]
 categories = ["development-tools::profiling"]
-rust-version = "1.65"
+rust-version = "1.92"
 
 [dependencies]
 quote = { version = "1.0", default-features = false }
 syn = { version = "2.0", features = ["full"] }
 
 [lib]
-proc-macro=true
+proc-macro = true
 
 [features]
 profile-with-puffin = []
