@@ -10,7 +10,7 @@ repository = "https://github.com/aclysma/profiling"
 homepage = "https://github.com/aclysma/profiling"
 keywords = ["performance", "profiling"]
 categories = ["development-tools::profiling"]
-rust-version = "1.92"
+rust-version = "1.60"
 
 [dependencies]
 quote = { version = "1.0.45", default-features = false }
