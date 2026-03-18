@@ -23,8 +23,11 @@ profiling = { path = "../profiling", features = ["profile-with-puffin"] }
 puffin = "0.20.0"
 puffin_egui = "0.30.0"
 egui = "0.33.3"
-# wgpu also works fine here
-eframe = { version = "0.33.3", default-features = false, features = ["glow"] }
+eframe = { version = "0.33.3", default-features = false, features = [
+    "glow",
+    "wayland",
+    "x11",
+] }
 
 log = "0.4.29"
 env_logger = "0.11.9"
