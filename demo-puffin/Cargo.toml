@@ -24,7 +24,7 @@ puffin = "0.20"
 puffin_egui = "0.30.0"
 egui = "0.33.3"
 # wgpu also works fine here
-eframe = { version = "0.33.3", default-features = false, features = ["glow"] }
+eframe = { version = "0.33.3", default-features = false, features = ["glow", "x11", "wayland"] }
 
 log = "0.4"
 env_logger = "0.11"
