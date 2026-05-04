@@ -20,7 +20,7 @@ categories = ["development-tools::profiling"]
 [dependencies]
 profiling = { path = "../profiling", features = ["profile-with-puffin"] }
 
-puffin = "0.19.1"
+puffin = "0.20"
 puffin_egui = "0.29.0"
 egui = "0.28.1" 
 # wgpu also works fine here

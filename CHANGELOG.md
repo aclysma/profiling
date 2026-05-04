@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.18
+* MSRV updated to 1.85. (Upstream packages adopting edition 2024 cannot be compiled on prior MSRV)
+* Update puffin to 0.20
+
 ## 1.0.17
 * Update superluminal to 0.4
 * Update tracy-client to 0.18 

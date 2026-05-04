@@ -114,10 +114,10 @@ jobs:
       matrix:
         config:
           - package: profiling
-            msrv: '1.60'
+            msrv: '1.85'
             extra-args: --no-default-features
           - package: profiling-procmacros
-            msrv: '1.65'
+            msrv: '1.85'
 
     steps:
       - uses: actions/checkout@v4
