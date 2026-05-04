@@ -82,7 +82,7 @@ confidence-threshold = 1.0
 # Allow 1 or more licenses on a per-crate basis, so that particular licenses
 # aren't accepted for every possible crate as with the normal allow list
 exceptions = [
-    { allow = ["OFL-1.1", "LicenseRef-UFL-1.0"], name = "epaint", version = "*" },
+    { allow = ["OFL-1.1", "LicenseRef-UFL-1.0", "Ubuntu-font-1.0"], name = "epaint_default_fonts", version = "*" },
 ]
 
 # Some crates don't have (easily) machine readable licensing information,
